@@ -1,0 +1,99 @@
+.appContainer {
+  height: 100%;
+}
+
+.homePageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #dc5353;
+  height: 100%;
+}
+.homePageContainer header {
+  height: 150px;
+  width: 100%;
+  font-size: 40px;
+  color: white;
+  background: #a72461;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.homePageContainer header span {
+  font-family: Arial, Helvetica, sans-serif;
+}
+.homePageContainer section {
+  margin-top: 16px;
+  display: grid;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+  grid-template-columns: 350px auto;
+  grid-template-rows: repeat(6, 1fr);
+  width: 600px;
+  height: 600px;
+}
+
+.playerNameContainer {
+  background-color: #f9e090;
+  grid-row: 1;
+  grid-column: 2;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.playerNameContainer input {
+  width: 100%;
+  margin: 0 8px 0 8px;
+  font-size: 16px;
+}
+.playerNameContainer span {
+  font-size: 18px;
+}
+
+.currentRoomContainer {
+  border-radius: 8px;
+  background-color: #f9e090;
+  grid-row: 2/5;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+}
+.currentRoomContainer h3 {
+  margin: 8px 0 0 0;
+  width: 100%;
+  text-align: center;
+}
+.currentRoomContainer p {
+  margin: 8px 8px 0 8px;
+}
+.currentRoomContainer ul {
+  margin: 0;
+  padding: 4px 8px 0 8px;
+  list-style: none;
+  flex: 1 0 auto;
+}
+.currentRoomContainer ul li {
+  padding: 4px;
+}
+.currentRoomContainer .startGameButtonContainer {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+.currentRoomContainer .startGameButtonContainer button {
+  width: 100%;
+  background-color: #a72461;
+  color: white;
+  border-radius: 28px;
+  border-style: none;
+  font-size: 16px;
+  padding: 4px;
+  cursor: pointer;
+}
+.currentRoomContainer .startGameButtonContainer button:hover {
+  background-color: #c02970;
+}
+
+/*# sourceMappingURL=app.css.map */

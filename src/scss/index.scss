@@ -1,0 +1,22 @@
+$mainFont: 'Dejavu Sans Mono',sans-serif;
+
+.base{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+html, body, #root{
+    @extend .base;
+}
+html{
+    font-family: $mainFont;
+    background: #101010;
+}
+body{
+    background: #202020;
+}
+#root{
+    background: #303030;
+}

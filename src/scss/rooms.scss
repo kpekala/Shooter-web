@@ -1,0 +1,64 @@
+@import './utils/colors.scss';
+@import './utils/common.scss';
+
+.roomsContainer{
+    background-color: $primaryColor;
+    grid-row: 1 / 5;
+    grid-column: 1;
+    border-radius: $primaryBorderRadius;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.roomsTitleContainer{
+    display: flex;
+    width: 100%;
+    height: 48px;
+    justify-content: center;
+    align-items: center;
+    span{
+        font-size: 24px;
+    }
+}
+
+.roomForm{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 8px;
+
+    label{
+        display: inline-block;
+        width: 70%;
+        input{
+            width: 100%;
+        }
+    }
+    input[type=submit]{
+        width: 25%;
+    }
+}
+
+.listContainer{
+    flex: 1 0 auto;
+
+    ul{
+        margin: 0;
+        padding: 0;
+        li{
+            padding: 4px 16px 4px 16px;
+            list-style: none;
+        }
+    }
+}
+
+.itemRoom{
+    cursor: pointer;
+}
+
+.itemRoom.clicked{
+    background-color: $accentColor;
+    color: white;
+}

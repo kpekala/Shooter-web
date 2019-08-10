@@ -1,0 +1,21 @@
+.base, html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+html {
+  font-family: "Dejavu Sans Mono", sans-serif;
+  background: #101010;
+}
+
+body {
+  background: #202020;
+}
+
+#root {
+  background: #303030;
+}
+
+/*# sourceMappingURL=index.css.map */
