@@ -2,6 +2,8 @@ import React from 'react';
 import './../../css/game.css';
 import { socketClient, socket as io} from './../socket-client';
 import fetcher from './../fetcher';
+import {startGame} from './../game';
+
 
 class GamePage extends React.Component {
 
@@ -10,11 +12,13 @@ class GamePage extends React.Component {
 
   }
 
+  componentDidMount(){
+    startGame();
+  }
 
   render(){
       return (
-          <div className="gamePageContainer">
-            Gierka strzelanka huehuehue
+          <div id="gamePageContainer">
           </div>
       );
   }
