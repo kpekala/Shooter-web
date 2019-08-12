@@ -1,28 +1,29 @@
 import Phaser from 'phaser';
+import FightingScene from './fighting-scene'
 
 var config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    parent: 'gamePageContainer',
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        parent: 'gamePageContainer',
+        width: 1400,
+        height: 800
+    },
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 200 }
+            gravity: { y: 500 }
         }
     },
-    scene: {
-        preload: preload,
-        create: create
-    }
+    scene: FightingScene
 };
-
 
 var game;
 
 export function startGame(){
     console.log('Game is starting!');
-    game = new Phaser.Game(config); 
+    game = new Phaser.Game(config);
 }
 
 function preload(){
@@ -32,8 +33,8 @@ function preload(){
 }
 
 function create(){
-    this.add.image(200, 200, 'background');
-    this.add.image(500, 100, 'player');
-    this.add.image(200, 100, 'cegla');
+    const backgroundImage = this.add.image(200, 200, 'background');
+    backgroundImage.scaleX = 2;
+    backgroundImage.scaleY = 2;
 }
 
