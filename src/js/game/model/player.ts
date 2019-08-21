@@ -11,10 +11,9 @@ export default class Player extends BaseSprite{
         super(scene, 400, 300,'player_sprite');
 
         scene.physics.world.enable(this);
-        scene.add.existing(this)
         this.setBounce(0.2)
 
-        this.hand = new Hand(scene);
+        this.hand = new Hand(scene,0,0);
 
         scene.input.on("pointermove", (pointer:any) => {
             this.hand.calculateAngle(pointer)

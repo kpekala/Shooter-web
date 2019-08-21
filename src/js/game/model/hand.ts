@@ -1,16 +1,21 @@
 import Phaser from 'phaser'
 import Player from './player';
+import BaseContainer from './base-container';
 import BaseSprite from './base-sprite';
 
-export default class Hand extends BaseSprite{
+export default class Hand extends BaseContainer{
 
-    constructor(scene: Phaser.Scene){
-        super(scene, 400, 300,'hand');
+    handSprite: Phaser.GameObjects.Image
 
-        scene.add.existing(this);
+    constructor(scene: Phaser.Scene, x: integer, y: integer){
+        super(scene,x,y);
+
+        this.handSprite = scene.add.image(0,0,'hand');
+        this.add(this.handSprite);
     }
 
     update(){
+
     }
 
 
@@ -19,7 +24,7 @@ export default class Hand extends BaseSprite{
         const angle = Math.atan2(vec.y, vec.x) * 180 / Math.PI;
         this.angle = angle;
 
-        this.flipY = vec.x < 0
+        this.handSprite.flipY = vec.x < 0
     }
 
     stickToPlayer(player: Player){
