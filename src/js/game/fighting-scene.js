@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import Player from './model/player.ts';
+
 
 const blockSizeInPx = 30;
 
@@ -8,36 +10,44 @@ export default class FightingScene extends Phaser.Scene{
         this.initKeys();
 
         this.load.image('background','assets/tlo1.png');
-        this.load.image('player','assets/player0.png');
+        this.load.image('hand','assets/reka.png');
         this.load.image('cegla','assets/cegla.png');
         this.load.image('kamien0','assets/kamien0.png');
-        this.load.image('player0','assets/player0.png');
+        this.load.spritesheet('player_sprite','assets/player_anim.png',{frameWidth: 21, frameHeight: 80})
+
+        this.eventCursors = this.input.keyboard.createCursorKeys();
     }
     create(){
         const backgroundImage = this.add.image(200, 200, 'background');
         backgroundImage.scaleX = 2;
         backgroundImage.scaleY = 2;
 
+        this.game.events.on('prerender',(renderer, time, delta) => {
+            this.player.preRender();
+        });
+
         this.createPlatforms();
         this.createPlayer();
         this.addColliders();
+
+        this.prepareAnimations()
+    }
+
+    prepareAnimations(){
+        this.anims.create({
+            key: 'move',
+            frames: this.anims.generateFrameNumbers('player_sprite', { start: 0, end: 2 }),
+            frameRate: 10,
+            repeat: -1
+        });
     }
 
     update(){
-        const keyboard = this.input.keyboard;
-        const cursors = keyboard.createCursorKeys();
-        
-        if(this.keyA.isDown){
-            this.player.setVelocityX(-200);
-        }
-        else if(this.keyD.isDown){
-            this.player.setVelocityX(200);
-        }else{
-            this.player.setVelocityX(0);
-        }
-        if (this.keyW.isDown && this.player.body.touching.down){
-            this.player.setVelocityY(-500);
-        }
+        this.onEvents();
+    }
+    
+    onEvents(){
+        this.player.onEvents();
     }
 
     createPlatforms(){
@@ -69,10 +79,7 @@ export default class FightingScene extends Phaser.Scene{
     }
 
     createPlayer(){
-        this.player = this.physics.add.sprite(400, 600, 'player0');
-
-        this.player.setBounce(0.2);
-        this.player.setCollideWorldBounds(true);
+        this.player = new Player(this);
     }
 
     initKeys(){
@@ -81,5 +88,6 @@ export default class FightingScene extends Phaser.Scene{
         this.keyA = keyboard.addKey('A'); 
         this.keyS = keyboard.addKey('S'); 
         this.keyD = keyboard.addKey('D');
+        this.keySpace = keyboard.addKey('SPACE');
     }
 }

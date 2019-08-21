@@ -25,16 +25,3 @@ export function startGame(){
     console.log('Game is starting!');
     game = new Phaser.Game(config);
 }
-
-function preload(){
-    this.load.image('background','assets/tlo1.png');
-    this.load.image('player','assets/player0.png');
-    this.load.image('cegla','assets/cegla.png');
-}
-
-function create(){
-    const backgroundImage = this.add.image(200, 200, 'background');
-    backgroundImage.scaleX = 2;
-    backgroundImage.scaleY = 2;
-}
-
