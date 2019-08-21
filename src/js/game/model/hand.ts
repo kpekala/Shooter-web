@@ -1,21 +1,27 @@
 import Phaser from 'phaser'
 import Player from './player';
-import BaseContainer from './base-container';
-import BaseSprite from './base-sprite';
+import BaseContainer from './base/base-container';
+import BaseSprite from './base/base-sprite';
+import { Gun } from './gun';
 
 export default class Hand extends BaseContainer{
 
-    handSprite: Phaser.GameObjects.Image
+    handImage: Phaser.GameObjects.Image
 
     constructor(scene: Phaser.Scene, x: integer, y: integer){
         super(scene,x,y);
 
-        this.handSprite = scene.add.image(0,0,'hand');
-        this.add(this.handSprite);
+        this.handImage = scene.add.image(0,0,'hand');
+        this.add(this.handImage);
     }
-
+    
     update(){
 
+    }
+
+    addGun(gun: Gun){
+        this.add(gun);
+        gun.flipY = this.handImage.flipY;
     }
 
 
@@ -24,7 +30,16 @@ export default class Hand extends BaseContainer{
         const angle = Math.atan2(vec.y, vec.x) * 180 / Math.PI;
         this.angle = angle;
 
-        this.handSprite.flipY = vec.x < 0
+        this.updateFlip(vec.x < 0);
+        
+    }
+
+    updateFlip(shouldFlip: boolean){
+        this.handImage.flipY = shouldFlip;
+        this.list.forEach((child ) => {
+            let image = child as Phaser.GameObjects.Image;
+            image.flipY = shouldFlip;
+        });
     }
 
     stickToPlayer(player: Player){

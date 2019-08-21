@@ -10,7 +10,6 @@ export default class BaseSprite extends Phaser.Physics.Arcade.Sprite{
 
     constructor(scene: Phaser.Scene, x: integer, y: integer, key: string){
         super(scene,x,y,key);
-        this.scene = scene;
         scene.add.existing(this);
         this.initKeys();
     }
@@ -24,5 +23,5 @@ export default class BaseSprite extends Phaser.Physics.Arcade.Sprite{
         this.keySpace = keyboard.addKey('SPACE');
     }
 
-    mousePointer = this.scene.input.activePointer
+    getMouserPointer =  () => this.scene.input.activePointer
 }

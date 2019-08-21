@@ -1,16 +1,27 @@
 import Phaser from 'phaser';
 import Player from './model/player.ts';
+import {GunToTake} from './model/gun';
 
 
 const blockSizeInPx = 30;
 
 export default class FightingScene extends Phaser.Scene{
 
+    constructor(){
+        super();
+        this.takeGun = this.takeGun.bind(this);
+    }
+
     preload(){
         this.initKeys();
 
         this.load.image('background','assets/tlo1.png');
         this.load.image('hand','assets/reka.png');
+        this.load.image('gun1','assets/gun1.png');
+        this.load.image('gun2','assets/gun2.png');
+        this.load.image('gun3','assets/gun3.png');
+        this.load.image('gun4','assets/gun4.png');
+        this.load.image('gun5','assets/gun5.png');
         this.load.image('cegla','assets/cegla.png');
         this.load.image('kamien0','assets/kamien0.png');
         this.load.spritesheet('player_sprite','assets/player_anim.png',{frameWidth: 21, frameHeight: 80})
@@ -22,15 +33,17 @@ export default class FightingScene extends Phaser.Scene{
         backgroundImage.scaleX = 2;
         backgroundImage.scaleY = 2;
 
+        this.createPlatforms();
+        this.createPlayer();
+        this.createGuns();
+        this.addColliders();
+        this.addPhysics();
+
+        this.prepareAnimations();
+        
         this.game.events.on('prerender',(renderer, time, delta) => {
             this.player.preRender();
         });
-
-        this.createPlatforms();
-        this.createPlayer();
-        this.addColliders();
-
-        this.prepareAnimations()
     }
 
     prepareAnimations(){
@@ -42,13 +55,39 @@ export default class FightingScene extends Phaser.Scene{
         });
     }
 
-    update(){
-        this.onEvents();
+    update(time, delta){
+        this.player.update(time, delta);
     }
-    
-    onEvents(){
-        this.player.onEvents();
+
+    addPhysics(){
+        this.physics.add.overlap(this.player, this.guns, this.takeGun, null, this);
     }
+
+    takeGun(player, gun){
+        gun.disableBody(true,true);
+        player.takeGun(gun);
+    }
+
+    createGuns(){
+        this.guns = this.physics.add.staticGroup();
+        this.generateGuns(6);
+    }
+
+    generateGuns(numberOfGuns){
+        let blocks = this.platforms.children;
+
+        let numberOfBlocks = blocks.size;
+
+        for(let i=0;i<numberOfGuns; i++){
+            let randomIndex = Math.floor((Math.random() * numberOfBlocks) % numberOfBlocks);
+            let blockPosition = blocks.entries[randomIndex];
+            let randomKey = 'gun' + ((randomIndex % 5) + 1).toString();
+            let gun = new GunToTake(this, blockPosition.x, blockPosition.y  - blockSizeInPx, randomKey);
+            this.guns.add(gun);
+        }
+    }
+
+
 
     createPlatforms(){
         this.platforms = this.physics.add.staticGroup();
