@@ -3,20 +3,28 @@ import Hand from './hand';
 import FightingScene from '../fighting-scene';
 import BaseSprite from './base/base-sprite';
 import { Gun, GunToTake } from './gun';
-
+import Bullet from './bullet';
+//Plunker
 const movementSpeed = 200;
 const jumpSpeed = 500;
+const shootingFreeze = 300;
 
 export default class Player extends BaseSprite{
 
     hand: Hand;
-    gun!: Gun
+    gun!: Gun;
+    timeFromLastShoot: number;
+    bullets!: Phaser.GameObjects.Group;
+
     constructor(scene: FightingScene){
         super(scene, 400, 300,'player_sprite');
 
         this.scene.physics.world.enable(this);
         this.hand = new Hand(scene,0,0);
+        this.timeFromLastShoot = 0;
+
         this.setUpPlayer();
+        this.initBulletGroup();
         this.initListeners();
     }
 
@@ -30,7 +38,16 @@ export default class Player extends BaseSprite{
         });
     }
 
+    
+    initBulletGroup(){
+        this.bullets = this.scene.add.group();
+    }
+
     update(time:any, delta:any){
+        if(this.gun){
+            this.gun.update(time. delta);
+        }
+        this.timeFromLastShoot += delta;
         this.checkPlayerFlip();
         this.updateMovement();
         this.fireIfNecessary();
@@ -57,7 +74,18 @@ export default class Player extends BaseSprite{
     }
 
     fireIfNecessary(){
-        //if(this.getMouserPointer().isDown)
+        if(this.getMouserPointer().isDown && this.timeFromLastShoot > shootingFreeze && this.gun){
+            this.timeFromLastShoot = 0;
+            this.fire();
+        }
+    }
+
+    fire(){
+        let bulletPos = this.hand.getEndOfGunPosition();
+
+        let newBullet = new Bullet(this.scene,0,0,'bullet');
+        this.bullets.add(newBullet,true);
+        newBullet.fire(this.gun,bulletPos, this.hand.angle);
     }
 
     takeGun(gun: GunToTake){

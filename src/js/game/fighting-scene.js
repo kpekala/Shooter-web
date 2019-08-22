@@ -9,7 +9,6 @@ export default class FightingScene extends Phaser.Scene{
 
     constructor(){
         super();
-        this.takeGun = this.takeGun.bind(this);
     }
 
     preload(){
@@ -22,6 +21,7 @@ export default class FightingScene extends Phaser.Scene{
         this.load.image('gun3','assets/gun3.png');
         this.load.image('gun4','assets/gun4.png');
         this.load.image('gun5','assets/gun5.png');
+        this.load.image('bullet','assets/pocisk.png');
         this.load.image('cegla','assets/cegla.png');
         this.load.image('kamien0','assets/kamien0.png');
         this.load.spritesheet('player_sprite','assets/player_anim.png',{frameWidth: 21, frameHeight: 80})
@@ -38,7 +38,6 @@ export default class FightingScene extends Phaser.Scene{
         this.createGuns();
         this.addColliders();
         this.addPhysics();
-
         this.prepareAnimations();
         
         this.game.events.on('prerender',(renderer, time, delta) => {
@@ -54,6 +53,7 @@ export default class FightingScene extends Phaser.Scene{
             repeat: -1
         });
     }
+
 
     update(time, delta){
         this.player.update(time, delta);
