@@ -7,7 +7,7 @@ import Bullet from './bullet';
 //Plunker
 const movementSpeed = 200;
 const jumpSpeed = 500;
-const shootingFreeze = 300;
+const shootingFreeze = 50;
 
 export default class Player extends BaseSprite{
 
@@ -29,6 +29,7 @@ export default class Player extends BaseSprite{
     }
 
     setUpPlayer(){
+        this.setGravityY(500);
         this.setBounce(0.2)
     }
 
@@ -86,6 +87,8 @@ export default class Player extends BaseSprite{
         let newBullet = new Bullet(this.scene,0,0,'bullet');
         this.bullets.add(newBullet,true);
         newBullet.fire(this.gun,bulletPos, this.hand.angle);
+
+        this.scene.sound.play('gun_shoot');
     }
 
     takeGun(gun: GunToTake){

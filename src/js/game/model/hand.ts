@@ -59,7 +59,7 @@ export default class Hand extends BaseContainer{
         });
     }
 
-    stickToPlayer(player: Player){
+    stickToPlayer(player: BaseSprite){
         this.setPosition(player.x, player.y - 8);
     }
 }

@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import Player from './model/player.ts';
 import {GunToTake} from './model/gun';
+import Enemy from './model/enemy';
 
 
 const blockSizeInPx = 30;
@@ -25,6 +26,10 @@ export default class FightingScene extends Phaser.Scene{
         this.load.image('cegla','assets/cegla.png');
         this.load.image('kamien0','assets/kamien0.png');
         this.load.spritesheet('player_sprite','assets/player_anim.png',{frameWidth: 21, frameHeight: 80})
+        this.load.spritesheet('enemy_sprite','assets/enemy_anim.png',{frameWidth: 21, frameHeight: 80})
+
+        this.load.audio('gun_shoot','assets/sound/gun_sound.wav');
+        this.load.audio('block_hit','assets/sound/stone_hit.mp3');
 
         this.eventCursors = this.input.keyboard.createCursorKeys();
     }
@@ -35,6 +40,7 @@ export default class FightingScene extends Phaser.Scene{
 
         this.createPlatforms();
         this.createPlayer();
+        this.createEnemies();
         this.createGuns();
         this.addColliders();
         this.addPhysics();
@@ -42,6 +48,9 @@ export default class FightingScene extends Phaser.Scene{
         
         this.game.events.on('prerender',(renderer, time, delta) => {
             this.player.preRender();
+            this.enemies.children.getArray().forEach(enemy => {
+                enemy.preRender();
+            });
         });
     }
 
@@ -57,6 +66,9 @@ export default class FightingScene extends Phaser.Scene{
 
     update(time, delta){
         this.player.update(time, delta);
+        this.enemies.children.getArray().forEach(enemy => {
+            enemy.findPlayer(this.player);
+        });
     }
 
     addPhysics(){
@@ -87,8 +99,6 @@ export default class FightingScene extends Phaser.Scene{
         }
     }
 
-
-
     createPlatforms(){
         this.platforms = this.physics.add.staticGroup();
         this.createSpecificPlatform({x: 240, y: 785 }, 30);
@@ -104,6 +114,12 @@ export default class FightingScene extends Phaser.Scene{
 
     }
 
+    createEnemies(){
+        this.enemies = this.physics.add.group();
+        let testEnemy = new Enemy(this);
+        this.enemies.add(testEnemy);
+    }
+
     createSpecificPlatform(startPoint, lengthInBlocks){
         //if startX and startY are 0, platform will start in left-top part of screen
         for(let i=0; i<lengthInBlocks; i++){
@@ -115,8 +131,15 @@ export default class FightingScene extends Phaser.Scene{
 
     addColliders(){
         this.physics.add.collider(this.player, this.platforms);
+        this.physics.add.overlap(this.player.bullets, this.platforms, this.onBulletHitBlock ,null, this);
     }
 
+    onBulletHitBlock(bullet, block){
+        bullet.disableBody(true,true);
+        block.disableBody(true,true);
+
+        this.sound.play('block_hit');
+    }
     createPlayer(){
         this.player = new Player(this);
     }
