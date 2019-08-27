@@ -1,6 +1,6 @@
 import React from 'react';
 import './../../css/app.css';
-import {socketClient} from './../socket-client';
+import  {roomRepo} from '../data/repo/room-repo';
 import fetcher from './../fetcher';
 
 class PlayerRoom extends React.Component {
@@ -39,8 +39,8 @@ class PlayerRoom extends React.Component {
     }).catch(err => {
       this.setState({players: []})
     }).finally(() =>{
-      socketClient.observeNewPlayersInRoom(oldRoomId,roomId,this.onNewPlayerInRoom)
-      socketClient.emitNewPlayer(this.props.playerName,roomId);
+      roomRepo.observeNewPlayersInRoom(oldRoomId,roomId,this.onNewPlayerInRoom)
+      roomRepo.emitNewPlayer(this.props.playerName,roomId);
     })   
   }
 

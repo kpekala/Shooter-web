@@ -1,9 +1,9 @@
 import io from 'socket.io-client';
-import {baseUrl} from './utils';
+import {baseUrl} from '../../utils';
 
 export const socket = io(baseUrl);
 
-class SocketClient{
+class RoomRepo{
     observeNewPlayersInRoom(lastRoomId, roomId, onNewPlayerInRoom){
         const lastEventName = `newPlayer ${lastRoomId}`;
         const newEventName = `newPlayer ${roomId}`;
@@ -22,5 +22,5 @@ class SocketClient{
     }
 }
 
-export const socketClient = new SocketClient();
+export const roomRepo = new RoomRepo();
 

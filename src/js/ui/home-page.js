@@ -2,7 +2,7 @@ import React from 'react';
 import './../../css/app.css';
 import Rooms from './rooms';
 import PlayerRoom from './player-room';
-import { socketClient, socket as io} from './../socket-client';
+import { socketClient, socket as io} from '../data/repo/room-repo';
 import fetcher from './../fetcher';
 
 //https://colorhunt.co/palette/152950
