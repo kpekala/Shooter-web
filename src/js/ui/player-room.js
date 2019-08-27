@@ -34,11 +34,10 @@ class PlayerRoom extends React.Component {
   }
 
   onCurrentRoomChange(roomId, oldRoomId){
-
     fetcher.fetchPlayers(roomId).then(players =>{
       this.setState({players: players})
     }).catch(err => {
-      console.log(err);
+      this.setState({players: []})
     }).finally(() =>{
       socketClient.observeNewPlayersInRoom(oldRoomId,roomId,this.onNewPlayerInRoom)
       socketClient.emitNewPlayer(this.props.playerName,roomId);
