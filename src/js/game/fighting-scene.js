@@ -7,11 +7,7 @@ import Enemy from './model/enemy';
 const blockSizeInPx = 30;
 
 export default class FightingScene extends Phaser.Scene{
-
-    constructor(){
-        super();
-    }
-
+    
     preload(){
         this.initKeys();
 

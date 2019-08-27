@@ -34,7 +34,7 @@ class App extends React.Component {
 
     return (
       <div className="appContainer">
-        <GamePage/>
+        {currentPage}
       </div>
     );
   }

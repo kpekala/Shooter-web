@@ -75,7 +75,8 @@ class HomePage extends React.Component {
           <Rooms 
           onChangedRoom={this.onCurrentRoomChanged} 
           roomName={this.state.currentRoom.roomName}
-          onRoomCreated={this.onRoomCreated}/>
+          onRoomCreated={this.onRoomCreated}
+          playerName={this.state.playerName}/>
           <this.PlayerNameInput/>
           <PlayerRoom 
           roomId={this.state.currentRoom._id} 

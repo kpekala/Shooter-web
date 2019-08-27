@@ -1,7 +1,10 @@
 import './../../css/rooms.css';
+import './../../css/dialog.css';
 import React from 'react';
 import fetcher from './../fetcher';
 import {socket, socketClient} from './../socket-client';
+import Dialog from './dialog';
+import {sleep} from './../utils/time'
 
 class RoomForm extends React.Component{
     constructor(props){
@@ -52,7 +55,8 @@ class Rooms extends React.Component{
         this.onRoomCreated = this.onRoomCreated.bind(this);
 
         this.state = {
-            rooms: []
+            rooms: [],
+            isNeedForWriteNameDialog: false
         }
     }
 
@@ -75,6 +79,11 @@ class Rooms extends React.Component{
     }
 
     onRoomClick(clickedId){
+      if(this.props.playerName === ''){
+        this.enableNeedNameDialog();
+        return;
+      }
+
       const rooms = this.state.rooms;
       const clickedItemIndex = this.getClickedItemIndex(clickedId);   
       const clickedRoom = rooms[clickedItemIndex];
@@ -83,6 +92,12 @@ class Rooms extends React.Component{
         this.updateWithClickedRoom(clickedItemIndex);
         this.props.onChangedRoom(clickedRoom);
       }
+    }
+
+    async enableNeedNameDialog(){
+      this.setState({isNeedForWriteNameDialog: true});
+      await sleep(2000);
+      this.setState({isNeedForWriteNameDialog: false})
     }
 
     getClickedItemIndex(clickedId){
@@ -109,9 +124,22 @@ class Rooms extends React.Component{
        );
     }
 
+    generateDialogIfNecessary(){
+      let dialog;
+      let message;
+      if(this.state.isNeedForWriteNameDialog === true){
+        message = 'Your name is empty !'
+        dialog = <Dialog message={message}/>;
+      }else{
+        dialog = null
+      }
+      return dialog
+    }
+
     render(){
         const uiRooms = this.state.rooms.map((room) => this.generateListItem(room));
 
+        const dialog = this.generateDialogIfNecessary();
         return (
             <div className="roomsContainer">
               <div className="roomsTitleContainer">
@@ -123,7 +151,7 @@ class Rooms extends React.Component{
                   </ul>
               </div>
               <RoomForm onRoomCreated={this.props.onRoomCreated}/>
-
+              {dialog}
             </div>
         );
     }

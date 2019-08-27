@@ -17,7 +17,6 @@ class PlayerRoom extends React.Component {
   }
 
   componentWillReceiveProps(newProps){
-    console.log(newProps);
     if(this.props.roomId !== newProps.roomId){
         this.onCurrentRoomChange(newProps.roomId,this.props.roomId);
     }
@@ -25,6 +24,7 @@ class PlayerRoom extends React.Component {
 
   onNewPlayerInRoom(playerName){
       this.updatePlayers([playerName]);
+      console.log('onNewPlayerInRoom');
   }
 
   updatePlayers(newPlayers){
@@ -34,11 +34,14 @@ class PlayerRoom extends React.Component {
   }
 
   onCurrentRoomChange(roomId, oldRoomId){
-    socketClient.observeNewPlayersInRoom(oldRoomId,roomId,this.onNewPlayerInRoom)
-    socketClient.emitNewPlayer(this.props.playerName,roomId);
 
     fetcher.fetchPlayers(roomId).then(players =>{
       this.setState({players: players})
+    }).catch(err => {
+      console.log(err);
+    }).finally(() =>{
+      socketClient.observeNewPlayersInRoom(oldRoomId,roomId,this.onNewPlayerInRoom)
+      socketClient.emitNewPlayer(this.props.playerName,roomId);
     })   
   }
 
