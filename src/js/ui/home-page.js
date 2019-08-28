@@ -4,6 +4,7 @@ import Rooms from './rooms';
 import PlayerRoom from './player-room';
 import { socketClient, socket as io} from '../data/repo/room-repo';
 import fetcher from './../fetcher';
+import {roomRepo} from './../data/repo/room-repo';
 
 //https://colorhunt.co/palette/152950
 class HomePage extends React.Component {
@@ -22,7 +23,6 @@ class HomePage extends React.Component {
     this.onPlayerNameChange = this.onPlayerNameChange.bind(this);
     this.PlayerNameInput = this.PlayerNameInput.bind(this);
     this.onRoomCreated = this.onRoomCreated.bind(this);
-    this.onGameShouldStart = this.onGameShouldStart.bind(this);
   }
 
   onRoomCreated(roomName){
@@ -41,10 +41,6 @@ class HomePage extends React.Component {
         this.setState({isRoomPropertyOfPlayer: true})
       }
     }
-  }
-
-  onGameShouldStart(){
-    this.props.onGameShouldStart();
   }
 
   onPlayerNameChange(event){

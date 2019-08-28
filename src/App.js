@@ -2,6 +2,7 @@ import React from 'react';
 import './css/app.css';
 import HomePage from './js/ui/home-page';
 import GamePage from './js/ui/game-page';
+import {roomRepo} from './js/data/repo/room-repo';
 //https://colorhunt.co/palette/152950
 class App extends React.Component {
 
@@ -12,12 +13,16 @@ class App extends React.Component {
       playerName: '',
       isGameStarted: false
     }
-
-    this.onGameShouldStart = this.onGameShouldStart.bind(this);
+    this.onGameStarted = this.onGameStarted.bind(this);
   }
 
-  onGameShouldStart(){
+  onGameStarted(){
+    console.log('game started! ;)')
     this.setState({isGameStarted: true})
+  }
+
+  componentDidMount(){
+    roomRepo.observeGameStarting(this.onGameStarted);
   }
 
   getCurrentPage(){
@@ -25,7 +30,7 @@ class App extends React.Component {
       return <GamePage/>;
     }
     else{
-      return <HomePage onGameShouldStart={this.onGameShouldStart}/>;
+      return <HomePage/>;
     }
   }
 

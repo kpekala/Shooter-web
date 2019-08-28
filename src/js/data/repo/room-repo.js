@@ -20,6 +20,12 @@ class RoomRepo{
         }
         socket.emit(newEventName,data);
     }
+    observeGameStarting(onGameStarted){
+        socket.on('gameStarted',onGameStarted);
+    }
+    emitStartGame(){
+        socket.emit('startGame');
+    }
 }
 
 export const roomRepo = new RoomRepo();

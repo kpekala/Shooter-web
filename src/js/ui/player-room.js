@@ -46,7 +46,7 @@ class PlayerRoom extends React.Component {
 
   onStartButtonClick(event){
     if(this.isGameReadyToStart()){
-        this.props.onGameShouldStart();
+        roomRepo.emitStartGame();
     }
   }
 
