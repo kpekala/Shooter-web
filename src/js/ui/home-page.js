@@ -25,6 +25,7 @@ class HomePage extends React.Component {
     this.onRoomCreated = this.onRoomCreated.bind(this);
   }
 
+
   onRoomCreated(roomName){
     console.log(`${roomName} is added to rooms of user !`);
     this.setState((state, props) => ({roomsOfUser: state.roomsOfUser.concat(roomName)}));
@@ -79,7 +80,7 @@ class HomePage extends React.Component {
           roomName={this.state.currentRoom.roomName}
           playerName={this.state.playerName}
           isRoomPropertyOfPlayer={this.state.isRoomPropertyOfPlayer}
-          onGameShouldStart={this.onGameShouldStart}/>
+          onGameStarted={this.props.onGameStarted}/>
         </section>    
       </div>
     );

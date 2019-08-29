@@ -1,7 +1,4 @@
-import io from 'socket.io-client';
-import {baseUrl} from '../../utils';
-
-export const socket = io(baseUrl);
+import {socket} from './../socket';
 
 class RoomRepo{
     observeNewPlayersInRoom(lastRoomId, roomId, onNewPlayerInRoom){
@@ -19,12 +16,6 @@ class RoomRepo{
             roomId: roomId
         }
         socket.emit(newEventName,data);
-    }
-    observeGameStarting(onGameStarted){
-        socket.on('gameStarted',onGameStarted);
-    }
-    emitStartGame(){
-        socket.emit('startGame');
     }
 }
 

@@ -2,7 +2,7 @@ import './../../css/rooms.css';
 import './../../css/dialog.css';
 import React from 'react';
 import fetcher from './../fetcher';
-import {socket, roomRepo} from '../data/repo/room-repo';
+import {socket} from '../data/socket';
 import Dialog from './dialog';
 import {sleep} from './../utils/time'
 

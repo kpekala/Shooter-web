@@ -1,6 +1,7 @@
 import React from 'react';
 import './../../css/app.css';
 import  {roomRepo} from '../data/repo/room-repo';
+import  {gameRepo} from '../data/repo/game-repo';
 import fetcher from './../fetcher';
 
 class PlayerRoom extends React.Component {
@@ -14,6 +15,13 @@ class PlayerRoom extends React.Component {
 
     this.onNewPlayerInRoom = this.onNewPlayerInRoom.bind(this);
     this.onStartButtonClick = this.onStartButtonClick.bind(this);
+  }
+
+  componentDidMount(){
+    gameRepo.observeGameStarting(() => {
+      console.log('received info that game is starting!');
+      this.props.onGameStarted(this.state.players);
+    });
   }
 
   componentWillReceiveProps(newProps){
@@ -46,7 +54,7 @@ class PlayerRoom extends React.Component {
 
   onStartButtonClick(event){
     if(this.isGameReadyToStart()){
-        roomRepo.emitStartGame();
+        gameRepo.emitStartGame();
     }
   }
 
