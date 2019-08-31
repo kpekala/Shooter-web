@@ -9,11 +9,13 @@ class GamePage extends React.Component {
 
   constructor(props){
     super(props);
-
   }
 
   componentDidMount(){
-    startGame();
+    let playerData = {
+      playerName: this.props.playerName
+    }
+    startGame(playerData);
   }
 
   render(){

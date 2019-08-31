@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import Hand from './hand';
-import FightingScene from '../fighting-scene';
+import BattleScene from '../scene/battle-scene';
 import BaseSprite from './base/base-sprite';
 
 const movementSpeed = 200;

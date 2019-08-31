@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import Hand from './hand';
-import FightingScene from '../fighting-scene';
+import BattleScene from '../scene/battle-scene';
 import BaseSprite from './base/base-sprite';
 import { Gun, GunToTake } from './gun';
 import Bullet from './bullet';
@@ -16,7 +16,7 @@ export default class Player extends BaseSprite{
     timeFromLastShoot: number;
     bullets!: Phaser.GameObjects.Group;
 
-    constructor(scene: FightingScene){
+    constructor(scene: BattleScene){
         super(scene, 400, 300,'player_sprite');
 
         this.scene.physics.world.enable(this);
@@ -38,7 +38,6 @@ export default class Player extends BaseSprite{
             this.hand.calculateAngle(pointer)
         });
     }
-
     
     initBulletGroup(){
         this.bullets = this.scene.add.group();

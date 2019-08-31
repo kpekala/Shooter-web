@@ -1,14 +1,17 @@
 import Phaser from 'phaser';
-import Player from './model/player.ts';
-import {GunToTake} from './model/gun';
-import Enemy from './model/enemy';
+import {GunToTake} from '../model/gun';
+import Player from '../model/player';
+import BattleController from '../controller/battle-controller';
+import Enemy from '../model/enemy';
 
 
 const blockSizeInPx = 30;
 
-export default class FightingScene extends Phaser.Scene{
-    
+export default class BattleScene extends Phaser.Scene{
+
     preload(){
+        this.battleController = new BattleController(this);
+
         this.initKeys();
 
         this.load.image('background','assets/tlo1.png');
@@ -41,6 +44,8 @@ export default class FightingScene extends Phaser.Scene{
         this.addColliders();
         this.addPhysics();
         this.prepareAnimations();
+
+        this.battleController.onGameStart();
         
         this.game.events.on('prerender',(renderer, time, delta) => {
             this.player.preRender();
@@ -63,7 +68,6 @@ export default class FightingScene extends Phaser.Scene{
     update(time, delta){
         this.player.update(time, delta);
         this.enemies.children.getArray().forEach(enemy => {
-            enemy.findPlayer(this.player);
         });
     }
 
@@ -112,8 +116,11 @@ export default class FightingScene extends Phaser.Scene{
 
     createEnemies(){
         this.enemies = this.physics.add.group();
-        let testEnemy = new Enemy(this);
-        this.enemies.add(testEnemy);
+    }
+
+    addEnemy(enemyModel){
+        let newEnemy = new Enemy(this, enemyModel);
+        this.enemies.add(newEnemy);
     }
 
     createSpecificPlatform(startPoint, lengthInBlocks){
@@ -138,6 +145,14 @@ export default class FightingScene extends Phaser.Scene{
     }
     createPlayer(){
         this.player = new Player(this);
+    }
+
+    updateEnemy(enemyModel){
+        for(let enemy of this.enemies.children.getArray()){
+            if(enemy.name == enemyModel.name){
+                enemy.updateData(enemyModel);
+            }
+        }
     }
 
     initKeys(){

@@ -14,6 +14,7 @@ class App extends React.Component {
       isGameStarted: false
     }
     this.onGameStarted = this.onGameStarted.bind(this);
+    this.onPlayerNameChange = this.onPlayerNameChange.bind(this);
   }
 
   onGameStarted(players){
@@ -25,12 +26,19 @@ class App extends React.Component {
     })
   }
 
+  onPlayerNameChange(event){
+    const playerName = event.target.value;
+    this.setState({playerName: playerName});
+  }
+
   getCurrentPage(){
     if(this.state.isGameStarted === true){
-      return <GamePage/>;
+      return <GamePage playerName={this.state.playerName}/>;
     }
     else{
-      return <HomePage onGameStarted={this.onGameStarted}/>;
+      return <HomePage onGameStarted={this.onGameStarted} 
+      onPlayerNameChange={this.onPlayerNameChange}
+      playerName={this.state.playerName}/>;
     }
   }
 

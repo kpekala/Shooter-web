@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
-import FightingScene from './fighting-scene'
+import BattleScene from './scene/battle-scene'
+import gameSession from '../data/game-session';
 
 var config = {
     type: Phaser.AUTO,
@@ -16,12 +17,13 @@ var config = {
             debug: true
         }
     },
-    scene: FightingScene
+    scene: BattleScene
 };
 
 var game;
 
-export function startGame(){
+export function startGame(playerData){
     console.log('Game is starting!');
+    gameSession.playerName = playerData.playerName;
     game = new Phaser.Game(config);
 }

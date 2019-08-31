@@ -13,14 +13,12 @@ class HomePage extends React.Component {
     super(props);
 
     this.state = {
-      playerName: '',
       currentRoom: {players: []},
       isRoomPropertyOfPlayer: false,
       roomsOfUser: []
     }
 
     this.onCurrentRoomChanged = this.onCurrentRoomChanged.bind(this);
-    this.onPlayerNameChange = this.onPlayerNameChange.bind(this);
     this.PlayerNameInput = this.PlayerNameInput.bind(this);
     this.onRoomCreated = this.onRoomCreated.bind(this);
   }
@@ -44,10 +42,6 @@ class HomePage extends React.Component {
     }
   }
 
-  onPlayerNameChange(event){
-    const playerName = event.target.value;
-    this.setState({playerName: playerName});
-  }
 
   PlayerNameInput(props){
     return(
@@ -55,12 +49,13 @@ class HomePage extends React.Component {
         <span>
           Twój nick: 
         </span>
-        <input type="text" value={this.state.playerName} onChange={this.onPlayerNameChange}/>
+        <input type="text" value={this.props.playerName} onChange={this.props.onPlayerNameChange}/>
       </div>
     );
   }
 
   render(){
+    console.log(this.props.playerName, 'xdxdxdxd');
     return (
       <div className="homePageContainer">
         <header>
@@ -73,12 +68,12 @@ class HomePage extends React.Component {
           onChangedRoom={this.onCurrentRoomChanged} 
           roomName={this.state.currentRoom.roomName}
           onRoomCreated={this.onRoomCreated}
-          playerName={this.state.playerName}/>
+          playerName={this.props.playerName}/>
           <this.PlayerNameInput/>
           <PlayerRoom 
           roomId={this.state.currentRoom._id} 
           roomName={this.state.currentRoom.roomName}
-          playerName={this.state.playerName}
+          playerName={this.props.playerName}
           isRoomPropertyOfPlayer={this.state.isRoomPropertyOfPlayer}
           onGameStarted={this.props.onGameStarted}/>
         </section>    
