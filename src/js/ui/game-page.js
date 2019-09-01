@@ -7,10 +7,6 @@ import {startGame} from './../game/game';
 
 class GamePage extends React.Component {
 
-  constructor(props){
-    super(props);
-  }
-
   componentDidMount(){
     let playerData = {
       playerName: this.props.playerName

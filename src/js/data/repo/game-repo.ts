@@ -28,6 +28,12 @@ class GameRepo{
     observeEnemyUpdate(onEnemyUpdate: any){
         socket.on('enemyUpdate',onEnemyUpdate);
     }
+    emitRemovedBlock(data: Object){
+        socket.emit('removedBlock',data);
+    }
+    observeRemovingBlocks(onRemovedBlock: any){
+        socket.on('removedBlock',onRemovedBlock);
+    }
 }
 
 export const gameRepo = new GameRepo();

@@ -140,6 +140,7 @@ export default class BattleScene extends Phaser.Scene{
     onBulletHitBlock(bullet, block){
         bullet.disableBody(true,true);
         block.disableBody(true,true);
+        this.battleController.emitRemovedBlock(block)
 
         this.sound.play('block_hit');
     }
@@ -148,9 +149,19 @@ export default class BattleScene extends Phaser.Scene{
     }
 
     updateEnemy(enemyModel){
-        for(let enemy of this.enemies.children.getArray()){
-            if(enemy.name == enemyModel.name){
+        for(let enemy of this.enemies.getChildren()){
+            if(enemy.name === enemyModel.name){
                 enemy.updateData(enemyModel);
+            }
+        }
+    }
+
+    removeBlockAt(x, y){
+        console.log('removeBlockAt')
+        for(let block of this.platforms.getChildren()){
+            if(block.x === x && block.y === y){
+                console.log('block will be disabled');
+                block.disableBody(true, true);
             }
         }
     }

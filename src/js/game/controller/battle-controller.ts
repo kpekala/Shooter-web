@@ -12,11 +12,13 @@ export default class BattleController{
         this.scene = scene;
         this.sendPlayerUpdates = this.sendPlayerUpdates.bind(this);
         this.onEnemyUpdate = this.onEnemyUpdate.bind(this);
+        this.onRemovedBlock = this.onRemovedBlock.bind(this);
     }
 
     onGameStart(){
         this.intervalIdOfPlayerUpdates = setInterval(this.sendPlayerUpdates,updatesFreeze);
         gameRepo.observeEnemyUpdate(this.onEnemyUpdate);
+        gameRepo.observeRemovingBlocks(this.onRemovedBlock);
     }
 
     onEnemyUpdate(enemyModel: PlayerModel){
@@ -31,8 +33,23 @@ export default class BattleController{
             }
         }
     }
+    onRemovedBlock(block: any){
+        if(block.playerName !== gameSession.playerName){
+            this.scene.removeBlockAt(block.x, block.y);
+        }
+    }
     sendPlayerUpdates(){
         let player = this.scene.player!;
         gameRepo.emitPlayerUpdate(player);
     }
+
+    emitRemovedBlock(block: any){
+        let data = {
+            x: block.x,
+            y: block.y,
+            playerName: gameSession.playerName
+        };
+        gameRepo.emitRemovedBlock(data);
+    }
+
 }
