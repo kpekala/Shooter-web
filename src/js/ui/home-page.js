@@ -55,7 +55,6 @@ class HomePage extends React.Component {
   }
 
   render(){
-    console.log(this.props.playerName, 'xdxdxdxd');
     return (
       <div className="homePageContainer">
         <header>

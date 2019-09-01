@@ -26,6 +26,7 @@ class GameRepo{
         socket.emit('playerUpdate',playerModel);
     }
     observeEnemyUpdate(onEnemyUpdate: any){
+        socket.removeListener('enemyUpdate',onEnemyUpdate);
         socket.on('enemyUpdate',onEnemyUpdate);
     }
     emitRemovedBlock(data: Object){
@@ -33,6 +34,11 @@ class GameRepo{
     }
     observeRemovingBlocks(onRemovedBlock: any){
         socket.on('removedBlock',onRemovedBlock);
+    }
+
+    observeNewGuns(onNewGuns: any){
+        socket.removeListener('newGuns',onNewGuns);
+        socket.on('newGuns',onNewGuns)
     }
 }
 

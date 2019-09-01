@@ -82,7 +82,7 @@ export default class BattleScene extends Phaser.Scene{
 
     createGuns(){
         this.guns = this.physics.add.staticGroup();
-        this.generateGuns(6);
+        //this.generateGuns(6);
     }
 
     generateGuns(numberOfGuns){
@@ -153,6 +153,14 @@ export default class BattleScene extends Phaser.Scene{
             if(enemy.name === enemyModel.name){
                 enemy.updateData(enemyModel);
             }
+        }
+    }
+
+    addGuns(gunModels){
+        console.log(gunModels);
+        for(let gunModel of gunModels){
+            let gun = new GunToTake(this, gunModel.x, gunModel.y  - blockSizeInPx, gunModel.type);
+            this.guns.add(gun);
         }
     }
 

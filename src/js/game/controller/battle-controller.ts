@@ -19,6 +19,8 @@ export default class BattleController{
         this.intervalIdOfPlayerUpdates = setInterval(this.sendPlayerUpdates,updatesFreeze);
         gameRepo.observeEnemyUpdate(this.onEnemyUpdate);
         gameRepo.observeRemovingBlocks(this.onRemovedBlock);
+        
+        this.scene.addGuns(gameSession.guns);
     }
 
     onEnemyUpdate(enemyModel: PlayerModel){
@@ -51,5 +53,4 @@ export default class BattleController{
         };
         gameRepo.emitRemovedBlock(data);
     }
-
 }

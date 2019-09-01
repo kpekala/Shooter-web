@@ -2,10 +2,12 @@ import PlayerModel from "./player-model";
 
 class GameSession{
     playerName!: string;
-    cachedEnemies: Array<string>
+    cachedEnemies: Array<string>;
+    guns: Array<Object>
 
     constructor(){
         this.cachedEnemies = [];
+        this.guns = [];
     }
 
     isEnemyInCache(enemyModel: PlayerModel){

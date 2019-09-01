@@ -3,6 +3,7 @@ import './css/app.css';
 import HomePage from './js/ui/home-page';
 import GamePage from './js/ui/game-page';
 import {gameRepo} from './js/data/repo/game-repo';
+import gameSession from './js/data/game-session';
 //https://colorhunt.co/palette/152950
 class App extends React.Component {
 
@@ -23,6 +24,9 @@ class App extends React.Component {
     gameRepo.observeForInitialPositions((players) =>{
       console.log('gotten positions: ',players);
       this.setState({isGameStarted: true})
+    })
+    gameRepo.observeNewGuns((guns) =>{
+      gameSession.guns = guns;
     })
   }
 
