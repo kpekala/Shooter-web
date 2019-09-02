@@ -42,7 +42,6 @@ export default class BattleScene extends Phaser.Scene{
         this.createEnemies();
         this.createGuns();
         this.addColliders();
-        this.addPhysics();
         this.prepareAnimations();
 
         this.battleController.onGameStart();
@@ -71,32 +70,14 @@ export default class BattleScene extends Phaser.Scene{
         });
     }
 
-    addPhysics(){
-        this.physics.add.overlap(this.player, this.guns, this.takeGun, null, this);
-    }
-
     takeGun(player, gun){
+        this.battleController.emitNewPlayerGun(gun)
         gun.disableBody(true,true);
         player.takeGun(gun);
     }
 
     createGuns(){
         this.guns = this.physics.add.staticGroup();
-        //this.generateGuns(6);
-    }
-
-    generateGuns(numberOfGuns){
-        let blocks = this.platforms.children;
-
-        let numberOfBlocks = blocks.size;
-
-        for(let i=0;i<numberOfGuns; i++){
-            let randomIndex = Math.floor((Math.random() * numberOfBlocks) % numberOfBlocks);
-            let blockPosition = blocks.entries[randomIndex];
-            let randomKey = 'gun' + ((randomIndex % 5) + 1).toString();
-            let gun = new GunToTake(this, blockPosition.x, blockPosition.y  - blockSizeInPx, randomKey);
-            this.guns.add(gun);
-        }
     }
 
     createPlatforms(){
@@ -135,6 +116,7 @@ export default class BattleScene extends Phaser.Scene{
     addColliders(){
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.overlap(this.player.bullets, this.platforms, this.onBulletHitBlock ,null, this);
+        this.physics.add.overlap(this.player, this.guns, this.takeGun, null, this);
     }
 
     onBulletHitBlock(bullet, block){
@@ -165,11 +147,17 @@ export default class BattleScene extends Phaser.Scene{
     }
 
     removeBlockAt(x, y){
-        console.log('removeBlockAt')
-        for(let block of this.platforms.getChildren()){
-            if(block.x === x && block.y === y){
-                console.log('block will be disabled');
-                block.disableBody(true, true);
+        this.removeObjectFromGroup(this.platforms, {x,y});
+    }
+
+    removeGunAt(x, y){
+        this.removeObjectFromGroup(this.guns, {x,y});
+    }
+
+    removeObjectFromGroup(group, objectPos){
+        for(let object of group.getChildren()){
+            if(object.x === objectPos.x && object.y === objectPos.y){
+                object.disableBody(true, true);
             }
         }
     }

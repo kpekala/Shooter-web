@@ -2,6 +2,7 @@ import BattleScene from '../scene/battle-scene';
 import {gameRepo} from './../../data/repo/game-repo';
 import PlayerModel from '../../data/player-model';
 import gameSession from '../../data/game-session';
+import { Gun, GunToTake } from '../model/gun';
 
 const updatesFreeze = 40;
 export default class BattleController{
@@ -13,12 +14,14 @@ export default class BattleController{
         this.sendPlayerUpdates = this.sendPlayerUpdates.bind(this);
         this.onEnemyUpdate = this.onEnemyUpdate.bind(this);
         this.onRemovedBlock = this.onRemovedBlock.bind(this);
+        this.onNewEnemyGun = this.onNewEnemyGun.bind(this);
     }
 
     onGameStart(){
         this.intervalIdOfPlayerUpdates = setInterval(this.sendPlayerUpdates,updatesFreeze);
         gameRepo.observeEnemyUpdate(this.onEnemyUpdate);
         gameRepo.observeRemovingBlocks(this.onRemovedBlock);
+        gameRepo.observeNewEnemyGun(this.onNewEnemyGun)
         
         this.scene.addGuns(gameSession.guns);
     }
@@ -35,11 +38,7 @@ export default class BattleController{
             }
         }
     }
-    onRemovedBlock(block: any){
-        if(block.playerName !== gameSession.playerName){
-            this.scene.removeBlockAt(block.x, block.y);
-        }
-    }
+    
     sendPlayerUpdates(){
         let player = this.scene.player!;
         gameRepo.emitPlayerUpdate(player);
@@ -52,5 +51,27 @@ export default class BattleController{
             playerName: gameSession.playerName
         };
         gameRepo.emitRemovedBlock(data);
+    }
+
+    onRemovedBlock(block: any){
+        if(block.playerName !== gameSession.playerName){
+            this.scene.removeBlockAt(block.x, block.y);
+        }
+    }
+
+    emitNewPlayerGun(gun: GunToTake){
+        let data = {
+            x: gun.x,
+            y: gun.y,
+            playerName: gameSession.playerName
+        }
+        gameRepo.emitNewPlayerGun(data);
+    }
+
+    onNewEnemyGun(gun: any){
+        console.log('gotten guns update!')
+        if(gun.playerName !== gameSession.playerName){
+            this.scene.removeGunAt(gun.x, gun.y);
+        }
     }
 }
