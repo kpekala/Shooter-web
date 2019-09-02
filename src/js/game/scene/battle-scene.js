@@ -70,11 +70,6 @@ export default class BattleScene extends Phaser.Scene{
         });
     }
 
-    takeGun(player, gun){
-        this.battleController.emitNewPlayerGun(gun)
-        gun.disableBody(true,true);
-        player.takeGun(gun);
-    }
 
     createGuns(){
         this.guns = this.physics.add.staticGroup();
@@ -116,7 +111,19 @@ export default class BattleScene extends Phaser.Scene{
     addColliders(){
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.overlap(this.player.bullets, this.platforms, this.onBulletHitBlock ,null, this);
-        this.physics.add.overlap(this.player, this.guns, this.takeGun, null, this);
+        this.physics.add.overlap(this.player, this.guns, this.onPlayerTouchingGun, null, this);
+    }
+
+    onPlayerTouchingGun(player, gun){
+        if(this.keyE.isDown){
+            this.giveGunToPlayer(player, gun);
+        }
+    }
+
+    giveGunToPlayer(player, gun){
+        this.battleController.emitNewPlayerGun(gun)
+        gun.disableBody(true,true);
+        player.takeGun(gun);
     }
 
     onBulletHitBlock(bullet, block){
@@ -168,6 +175,7 @@ export default class BattleScene extends Phaser.Scene{
         this.keyA = keyboard.addKey('A'); 
         this.keyS = keyboard.addKey('S'); 
         this.keyD = keyboard.addKey('D');
+        this.keyE = keyboard.addKey('E');
         this.keySpace = keyboard.addKey('SPACE');
     }
 }
