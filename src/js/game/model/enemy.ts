@@ -5,11 +5,13 @@ import BaseSprite from './base/base-sprite';
 import Player from './player';
 import BattleScene from '../scene/battle-scene';
 import PlayerModel from '../../data/player-model';
+import { Gun, GunToTake } from './gun';
 
 export default class Enemy extends BaseSprite{
 
     hand: Hand;
     name: string;
+    gun!: Gun;
     constructor(scene: BattleScene,model: PlayerModel){
         super(scene, model.x, model.y,'enemy_sprite');
 
@@ -24,10 +26,19 @@ export default class Enemy extends BaseSprite{
         this.y = enemyModel.y;
         this.flipX = enemyModel.hasFlip;
         this.hand.angle = enemyModel.handAngle;
+        this.hand.updateFlip(this.flipX);
     }
   
     preRender(){
         this.hand.stickToPlayer(this);
+    }
+
+    takeGun(gun: GunToTake){
+        if(this.gun){
+            this.hand.remove(this.gun);
+        }   
+        this.gun = new Gun(this.scene,45,0,gun.texture.key)
+        this.hand.addGun(this.gun);
     }
 
     findPlayer(player: Player){

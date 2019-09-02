@@ -69,9 +69,8 @@ export default class BattleController{
     }
 
     onNewEnemyGun(gun: any){
-        console.log('gotten guns update!')
         if(gun.playerName !== gameSession.playerName){
-            this.scene.removeGunAt(gun.x, gun.y);
+            this.scene.giveGunToEnemy(gun.playerName, gun)
         }
     }
 }

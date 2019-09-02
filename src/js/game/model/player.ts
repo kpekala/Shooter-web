@@ -45,7 +45,7 @@ export default class Player extends BaseSprite{
 
     update(time:any, delta:any){
         if(this.gun){
-            this.gun.update(time. delta);
+            this.gun.update(time.delta);
         }
         this.timeFromLastShoot += delta;
         this.checkPlayerFlip();

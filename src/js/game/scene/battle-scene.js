@@ -126,6 +126,24 @@ export default class BattleScene extends Phaser.Scene{
         player.takeGun(gun);
     }
 
+    giveGunToEnemy(enemyName, gunPos){
+        let gun = this.findObjectInGroupByPos(this.guns, gunPos)
+        let enemy = this.findEnemiesByName(enemyName);
+        console.log('giveGunToEnemy');
+        console.log(enemy, gun);
+        enemy.takeGun(gun);
+        gun.disableBody(true, true)
+    }
+
+    findEnemiesByName(name){
+        for(let enemy of this.enemies.getChildren()){
+            console.log(enemy.name, name);
+            if(enemy.name === name){
+                return enemy;
+            }
+        }
+        throw "enemy not found!";
+    }
     onBulletHitBlock(bullet, block){
         bullet.disableBody(true,true);
         block.disableBody(true,true);
@@ -154,17 +172,14 @@ export default class BattleScene extends Phaser.Scene{
     }
 
     removeBlockAt(x, y){
-        this.removeObjectFromGroup(this.platforms, {x,y});
+        let block = this.findObjectInGroupByPos(this.platforms, {x,y})
+        block.disableBody(true, true);
     }
 
-    removeGunAt(x, y){
-        this.removeObjectFromGroup(this.guns, {x,y});
-    }
-
-    removeObjectFromGroup(group, objectPos){
+    findObjectInGroupByPos(group, objectPos){
         for(let object of group.getChildren()){
             if(object.x === objectPos.x && object.y === objectPos.y){
-                object.disableBody(true, true);
+                return object;
             }
         }
     }
