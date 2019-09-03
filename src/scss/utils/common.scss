@@ -1,1 +1,21 @@
 $primaryBorderRadius: 8px;
+
+.baseButton{
+    background-color: $accentColor;
+    color: white;
+    border-radius: 28px;
+    border-style: none;
+    font-size: 16px;
+    padding: 4px;
+    cursor: pointer;
+}
+
+.baseTextInput{
+    background-color: white;
+    color: black;
+    padding: 4px;
+    border-radius: 28px;
+    border-style: none;
+    padding-left: 8px;
+    padding-right: 8px;
+}

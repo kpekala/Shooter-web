@@ -41,7 +41,7 @@ class RoomForm extends React.Component{
           <label>
             <input  type="text" placeholder="Nazwa pokoju" value={this.state.roomName} onChange={this.handleInputChange}/>
           </label>
-          <input type="submit" value="Dodaj"/>
+          <input value="Dodaj" type="submit"></input>
         </form>
       );
     }
@@ -142,7 +142,7 @@ class Rooms extends React.Component{
         const dialog = this.generateDialogIfNecessary();
         return (
             <div className="roomsContainer">
-              <div className="roomsTitleContainer">
+              <div className="roomsTitleWrapper">
                 <span>Pokoje:</span>
               </div>
               <div className="listContainer">

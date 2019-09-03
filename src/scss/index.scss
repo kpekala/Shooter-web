@@ -1,4 +1,4 @@
-$mainFont: 'Dejavu Sans Mono',sans-serif;
+$mainFont: 'Open Sans', sans-serif;
 
 .base{
     margin: 0;
@@ -16,6 +16,9 @@ html{
 }
 body{
     background: #202020;
+    input:focus{
+        outline: 0;
+    }
 }
 #root{
     background: #303030;

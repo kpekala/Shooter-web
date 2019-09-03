@@ -6,12 +6,15 @@
 }
 
 html {
-  font-family: "Dejavu Sans Mono", sans-serif;
+  font-family: "Open Sans", sans-serif;
   background: #101010;
 }
 
 body {
   background: #202020;
+}
+body input:focus {
+  outline: 0;
 }
 
 #root {

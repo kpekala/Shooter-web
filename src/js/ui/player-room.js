@@ -3,6 +3,9 @@ import './../../css/app.css';
 import  {roomRepo} from '../data/repo/room-repo';
 import  {gameRepo} from '../data/repo/game-repo';
 import fetcher from './../fetcher';
+import Button from '@material/react-button';
+
+import './../../scss/test.scss'
 
 class PlayerRoom extends React.Component {
 
@@ -87,7 +90,7 @@ class PlayerRoom extends React.Component {
       if(this.props.isRoomPropertyOfPlayer){
           return (
           <div className="startGameButtonContainer">
-              <button onClick={this.onStartButtonClick}>Start</button>
+              <Button onClick={this.onStartButtonClick}>Start</Button>
           </div>
           );
       }
