@@ -143,9 +143,13 @@ export default class BattleScene extends Phaser.Scene{
         gun.disableBody(true, true)
     }
 
+    addBulletToEnemy(enemyName, bulletModel){
+        let enemy = this.findEnemiesByName(enemyName);
+        enemy.fireBullet(bulletModel);
+    }
+
     findEnemiesByName(name){
         for(let enemy of this.enemies.getChildren()){
-            console.log(enemy.name, name);
             if(enemy.name === name){
                 return enemy;
             }
@@ -161,6 +165,11 @@ export default class BattleScene extends Phaser.Scene{
     }
     createPlayer(){
         this.player = new Player(this);
+    }
+
+    onNewPlayerBullet(bullet){
+        this.sound.play('gun_shoot');
+        this.battleController.emitNewPlayerBullet(bullet);
     }
 
     updateEnemy(enemyModel){

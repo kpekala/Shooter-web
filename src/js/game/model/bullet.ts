@@ -7,11 +7,14 @@ const bulletSpeed = 1000
 
 export default class Bullet extends BaseImage{
 
-    constructor(scene: Phaser.Scene, x: integer, y: integer, textureKey: string){
+    id!: string;
+
+    constructor(scene: Phaser.Scene, x: integer, y: integer, textureKey: string, id: string){
         super(scene,x,y, textureKey);
 
         this.scene.physics.world.enable(this,0);
         this.setVisible(false);
+        this.id = id;
     }
     
     update(){

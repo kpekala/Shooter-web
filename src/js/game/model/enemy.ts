@@ -6,15 +6,16 @@ import Player from './player';
 import BattleScene from '../scene/battle-scene';
 import PlayerModel from '../../data/player-model';
 import { Gun, GunToTake } from './gun';
+import Bullet from './bullet';
+import Human from './human';
 
-export default class Enemy extends BaseSprite{
+export default class Enemy extends Human{
 
-    hand: Hand;
     name: string;
-    gun!: Gun;
     timeSinceLastUpdate: number = 0;
+
     constructor(scene: BattleScene,model: PlayerModel){
-        super(scene, model.x, model.y,'enemy_sprite');
+        super(scene,'enemy_sprite');
 
         this.scene.physics.world.enable(this);
         this.hand = new Hand(scene,0,0, 'handEnemy');
@@ -43,21 +44,8 @@ export default class Enemy extends BaseSprite{
         this.hand.stickToPlayer(this);
     }
 
-    takeGun(gun: GunToTake){
-        if(this.gun){
-            this.hand.remove(this.gun);
-        }   
-        this.gun = new Gun(this.scene,45,0,gun.texture.key)
-        this.hand.addGun(this.gun);
-    }
 
-    findPlayer(player: Player){
-        let x = player.x - this.x
-        if(x != 0 && Math.abs(x) > 50){
-            this.setVelocityX((Math.abs(x)/x) * 100);
-        }else{
-            this.setVelocityX(0);
-        }
-        
+    fireBullet(bulletModel: any){
+        this.fire(bulletModel, bulletModel.bulletId);
     }
 }

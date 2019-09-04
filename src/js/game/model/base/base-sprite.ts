@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import BattleScene from '../../scene/battle-scene';
 
 export default class BaseSprite extends Phaser.Physics.Arcade.Sprite{
 
@@ -7,6 +8,7 @@ export default class BaseSprite extends Phaser.Physics.Arcade.Sprite{
     keyW!: Phaser.Input.Keyboard.Key;
     keyD!: Phaser.Input.Keyboard.Key;
     keySpace!: Phaser.Input.Keyboard.Key;
+    battleScene = this.scene as BattleScene
 
     constructor(scene: Phaser.Scene, x: integer, y: integer, key: string){
         super(scene,x,y,key);
@@ -24,4 +26,5 @@ export default class BaseSprite extends Phaser.Physics.Arcade.Sprite{
     }
 
     getMouserPointer =  () => this.scene.input.activePointer
+
 }

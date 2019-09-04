@@ -47,6 +47,15 @@ class GameRepo{
         socket.removeListener('newEnemyGun',oNewEnemyGun);
         socket.on('newEnemyGun',oNewEnemyGun)
     }
+
+    emitNewPlayerBullet(data: Object){
+        socket.emit('newPlayerBullet', data);
+    }
+
+    observeNewEnemyBullet(onNewEnemyBullet: any){
+        socket.removeListener('newEnemyBullet',onNewEnemyBullet);
+        socket.on('newEnemyBullet',onNewEnemyBullet)
+    }
 }
 
 export const gameRepo = new GameRepo();

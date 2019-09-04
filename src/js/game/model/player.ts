@@ -4,27 +4,25 @@ import BattleScene from '../scene/battle-scene';
 import BaseSprite from './base/base-sprite';
 import { Gun, GunToTake } from './gun';
 import Bullet from './bullet';
+import Human from './human';
+import uniqid from 'uniqid';
+
 //Plunker
 const movementSpeed = 200;
 const jumpSpeed = 500;
 const shootingFreeze = 50;
 
-export default class Player extends BaseSprite{
+export default class Player extends Human{
 
-    hand: Hand;
-    gun!: Gun;
     timeFromLastShoot: number;
-    bullets!: Phaser.GameObjects.Group;
 
     constructor(scene: BattleScene){
-        super(scene, 400, 300,'player_sprite');
+        super(scene, 'player_sprite');
 
-        this.scene.physics.world.enable(this);
-        this.hand = new Hand(scene,0,0, 'hand');
         this.timeFromLastShoot = 0;
+        this.hand = new Hand(scene,0,0, 'hand');
 
         this.setUpPlayer();
-        this.initBulletGroup();
         this.initListeners();
     }
 
@@ -37,10 +35,6 @@ export default class Player extends BaseSprite{
         this.scene.input.on("pointermove", (pointer:any) => {
             this.hand.calculateAngle(pointer)
         });
-    }
-    
-    initBulletGroup(){
-        this.bullets = this.scene.add.group();
     }
 
     update(time:any, delta:any){
@@ -76,26 +70,10 @@ export default class Player extends BaseSprite{
     fireIfNecessary(){
         if(this.getMouserPointer().isDown && this.timeFromLastShoot > shootingFreeze && this.gun){
             this.timeFromLastShoot = 0;
-            this.fire();
+            let bulletPos = this.hand.getEndOfGunPosition();
+            this.fire(bulletPos, uniqid());
+            this.battleScene.onNewPlayerBullet(this);
         }
-    }
-
-    fire(){
-        let bulletPos = this.hand.getEndOfGunPosition();
-
-        let newBullet = new Bullet(this.scene,0,0,'bullet');
-        this.bullets.add(newBullet,true);
-        newBullet.fire(this.gun,bulletPos, this.hand.angle);
-
-        this.scene.sound.play('gun_shoot');
-    }
-
-    takeGun(gun: GunToTake){
-        if(this.gun){
-            this.hand.remove(this.gun);
-        }   
-        this.gun = new Gun(this.scene,45,0,gun.texture.key)
-        this.hand.addGun(this.gun);
     }
 
     checkPlayerFlip(){
