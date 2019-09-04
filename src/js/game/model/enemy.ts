@@ -12,16 +12,26 @@ export default class Enemy extends BaseSprite{
     hand: Hand;
     name: string;
     gun!: Gun;
+    timeSinceLastUpdate: number = 0;
     constructor(scene: BattleScene,model: PlayerModel){
         super(scene, model.x, model.y,'enemy_sprite');
 
         this.scene.physics.world.enable(this);
-        this.hand = new Hand(scene,0,0);
+        this.hand = new Hand(scene,0,0, 'handEnemy');
         this.name = model.name;
-        //this.setGravityY(500);
+    }
+
+    update(time:any, delta:any){
+        this.timeSinceLastUpdate += delta;
     }
 
     updateData(enemyModel: PlayerModel){
+        console.log(this.y,enemyModel.y)
+        if(this.x !== enemyModel.x && this.y === enemyModel.y){
+            this.anims.play('enemyMove', true);
+        }else{
+            this.anims.stop();
+        }
         this.x = enemyModel.x;
         this.y = enemyModel.y;
         this.flipX = enemyModel.hasFlip;

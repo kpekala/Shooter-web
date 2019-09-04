@@ -6,7 +6,7 @@ export default class PlayerModel{
     hasFlip: boolean;
     constructor(x: number, y: number, handAngle: number, name: string, hasFlip: boolean){
         this.x = x;
-        this.y = y;
+        this.y = Math.round(y);
         this.handAngle = handAngle;
         this.name = name;
         this.hasFlip = hasFlip;

@@ -15,7 +15,8 @@ export default class BattleScene extends Phaser.Scene{
         this.initKeys();
 
         this.load.image('background','assets/tlo1.png');
-        this.load.image('hand','assets/reka.png');
+        this.load.image('hand','assets/hand.png');
+        this.load.image('handEnemy','assets/handEnemy.png');
         this.load.image('gun1','assets/gun1.png');
         this.load.image('gun2','assets/gun2.png');
         this.load.image('gun3','assets/gun3.png');
@@ -56,8 +57,14 @@ export default class BattleScene extends Phaser.Scene{
 
     prepareAnimations(){
         this.anims.create({
-            key: 'move',
+            key: 'playerMove',
             frames: this.anims.generateFrameNumbers('player_sprite', { start: 0, end: 2 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'enemyMove',
+            frames: this.anims.generateFrameNumbers('enemy_sprite', { start: 0, end: 2 }),
             frameRate: 10,
             repeat: -1
         });
@@ -67,6 +74,7 @@ export default class BattleScene extends Phaser.Scene{
     update(time, delta){
         this.player.update(time, delta);
         this.enemies.children.getArray().forEach(enemy => {
+            enemy.update(time, delta);
         });
     }
 

@@ -20,7 +20,7 @@ export default class Player extends BaseSprite{
         super(scene, 400, 300,'player_sprite');
 
         this.scene.physics.world.enable(this);
-        this.hand = new Hand(scene,0,0);
+        this.hand = new Hand(scene,0,0, 'hand');
         this.timeFromLastShoot = 0;
 
         this.setUpPlayer();
@@ -55,11 +55,11 @@ export default class Player extends BaseSprite{
 
     updateMovement(){
         if(this.keyA.isDown){
-            this.anims.play('move', true);
+            this.anims.play('playerMove', true);
             this.setVelocityX(-movementSpeed);
         }
         else if(this.keyD.isDown){
-            this.anims.play('move', true);
+            this.anims.play('playerMove', true);
             this.setVelocityX(movementSpeed);
         }else{
             this.anims.stop();

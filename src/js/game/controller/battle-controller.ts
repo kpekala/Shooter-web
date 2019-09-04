@@ -40,8 +40,10 @@ export default class BattleController{
     }
     
     sendPlayerUpdates(){
-        let player = this.scene.player!;
-        gameRepo.emitPlayerUpdate(player);
+        let p = this.scene.player!;
+        let playerName = gameSession.playerName;
+        let playerModel = new PlayerModel(p.x,p.y,p.hand.angle, playerName, p.flipX);
+        gameRepo.emitPlayerUpdate(playerModel);
     }
 
     emitRemovedBlock(block: any){

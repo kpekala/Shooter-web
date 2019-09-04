@@ -9,10 +9,10 @@ export default class Hand extends BaseContainer{
     handImage: Phaser.GameObjects.Image
     gun!: Gun;
 
-    constructor(scene: Phaser.Scene, x: integer, y: integer){
+    constructor(scene: Phaser.Scene, x: integer, y: integer, handSpriteKey: string){
         super(scene,x,y);
 
-        this.handImage = scene.add.image(0,0,'hand');
+        this.handImage = scene.add.image(0,0,handSpriteKey);
 
         this.add(this.handImage);
     }

@@ -20,10 +20,8 @@ class GameRepo{
         socket.on('startPosition',onInitialPositions);
     }
 
-    emitPlayerUpdate(p: Player){
-        let playerName = gameSession.playerName;
-        let playerModel = new PlayerModel(p.x,p.y,p.hand.angle, playerName, p.flipX);
-        socket.emit('playerUpdate',playerModel);
+    emitPlayerUpdate(player: PlayerModel){
+        socket.emit('playerUpdate',player);
     }
     observeEnemyUpdate(onEnemyUpdate: any){
         socket.removeListener('enemyUpdate',onEnemyUpdate);
