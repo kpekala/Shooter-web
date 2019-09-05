@@ -23,10 +23,9 @@ export default class Human extends BaseSprite{
         this.bullets = this.scene.add.group();
     }
 
-    fire(bulletPos: any, bulletId: string){
-        let newBullet = new Bullet(this.scene,0,0,'bullet', bulletId);
-        this.bullets.add(newBullet,true);
-        newBullet.fire(this.gun,bulletPos, this.hand.angle);    
+    fire(bullet: Bullet){
+        this.bullets.add(bullet,true);
+        bullet.fire(this.gun, this.hand.angle);    
     }
 
     takeGun(gun: GunToTake){
@@ -35,5 +34,14 @@ export default class Human extends BaseSprite{
         }   
         this.gun = new Gun(this.scene,45,0,gun.texture.key)
         this.hand.addGun(this.gun);
+    }
+
+    findBulletById(id: string){
+        return (this.bullets.getChildren().find(bullet => (bullet as Bullet).id === id)) as Bullet
+    }
+
+    removeBullet(bulletId: string){
+        let bullet = this.findBulletById(bulletId);
+        bullet.disableBody(true, true);
     }
 }

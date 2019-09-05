@@ -36,10 +36,7 @@ export default class Hand extends BaseContainer{
     }
 
     getEndOfGunPosition(){
-        if(!this.gun){
-            return;
-        }
-        let distanceFromPlayer = (this.gun.x / 2) + this.gun.width;
+        let distanceFromPlayer = (this.gun.x) + this.gun.width;
         let angleInRad = Phaser.Math.DegToRad(this.angle)
         let cosOfAngle = Math.cos(angleInRad);
         let sinfAngle = Math.sin(angleInRad);

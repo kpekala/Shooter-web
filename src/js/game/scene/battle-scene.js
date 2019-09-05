@@ -136,7 +136,7 @@ export default class BattleScene extends Phaser.Scene{
 
     giveGunToEnemy(enemyName, gunPos){
         let gun = this.findObjectInGroupByPos(this.guns, gunPos)
-        let enemy = this.findEnemiesByName(enemyName);
+        let enemy = this.findEnemyByName(enemyName);
         console.log('giveGunToEnemy');
         console.log(enemy, gun);
         enemy.takeGun(gun);
@@ -144,11 +144,11 @@ export default class BattleScene extends Phaser.Scene{
     }
 
     addBulletToEnemy(enemyName, bulletModel){
-        let enemy = this.findEnemiesByName(enemyName);
+        let enemy = this.findEnemyByName(enemyName);
         enemy.fireBullet(bulletModel);
     }
 
-    findEnemiesByName(name){
+    findEnemyByName(name){
         for(let enemy of this.enemies.getChildren()){
             if(enemy.name === name){
                 return enemy;
@@ -160,7 +160,7 @@ export default class BattleScene extends Phaser.Scene{
         bullet.disableBody(true,true);
         block.disableBody(true,true);
         this.battleController.emitRemovedBlock(block)
-
+        this.battleController.emitBulletRemoved(bullet.id);
         this.sound.play('block_hit');
     }
     createPlayer(){
@@ -170,6 +170,11 @@ export default class BattleScene extends Phaser.Scene{
     onNewPlayerBullet(bullet){
         this.sound.play('gun_shoot');
         this.battleController.emitNewPlayerBullet(bullet);
+    }
+
+    removeEnemyBullet(enemyName, bulletId){
+        let enemy = this.findEnemyByName(enemyName);
+        enemy.removeBullet(bulletId);
     }
 
     updateEnemy(enemyModel){

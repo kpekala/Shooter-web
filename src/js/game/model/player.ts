@@ -69,11 +69,16 @@ export default class Player extends Human{
 
     fireIfNecessary(){
         if(this.getMouserPointer().isDown && this.timeFromLastShoot > shootingFreeze && this.gun){
-            this.timeFromLastShoot = 0;
-            let bulletPos = this.hand.getEndOfGunPosition();
-            this.fire(bulletPos, uniqid());
-            this.battleScene.onNewPlayerBullet(this);
+            this.fire();
         }
+    }
+
+    fire(){
+        this.timeFromLastShoot = 0;
+        let {x,y} = this.hand.getEndOfGunPosition();
+        let newBullet = new Bullet(this.scene,x,y,'bullet', uniqid());
+        this.battleScene.onNewPlayerBullet(newBullet);
+        super.fire(newBullet);
     }
 
     checkPlayerFlip(){

@@ -27,7 +27,6 @@ export default class Enemy extends Human{
     }
 
     updateData(enemyModel: PlayerModel){
-        console.log(this.y,enemyModel.y)
         if(this.x !== enemyModel.x && this.y === enemyModel.y){
             this.anims.play('enemyMove', true);
         }else{
@@ -46,6 +45,8 @@ export default class Enemy extends Human{
 
 
     fireBullet(bulletModel: any){
-        this.fire(bulletModel, bulletModel.bulletId);
+        let {x,y} = bulletModel;
+        let newBullet = new Bullet(this.scene,x,y,'bullet', bulletModel.bulletId);
+        this.fire(newBullet);
     }
 }

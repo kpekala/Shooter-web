@@ -17,6 +17,7 @@ export default class BattleController{
         this.onRemovedBlock = this.onRemovedBlock.bind(this);
         this.onNewEnemyGun = this.onNewEnemyGun.bind(this);
         this.onNewEnemyBullet = this.onNewEnemyBullet.bind(this);
+        this.onBulletRemoved = this.onBulletRemoved.bind(this);
     }
 
     onGameStart(){
@@ -25,6 +26,7 @@ export default class BattleController{
         gameRepo.observeRemovingBlocks(this.onRemovedBlock);
         gameRepo.observeNewEnemyGun(this.onNewEnemyGun)
         gameRepo.observeNewEnemyBullet(this.onNewEnemyBullet)
+        gameRepo.observeBulletRemoved(this.onBulletRemoved)
         
         this.scene.addGuns(gameSession.guns);
     }
@@ -92,6 +94,20 @@ export default class BattleController{
     onNewEnemyBullet(bullet: any){
         if(bullet.playerName !== gameSession.playerName){
             this.scene.addBulletToEnemy(bullet.playerName, bullet)
+        }
+    }
+
+    emitBulletRemoved(bulletId: string){
+        let data = {
+            playerName: gameSession.playerName,
+            bulletId: bulletId,
+        }
+        gameRepo.emitBulletRemoved(data);
+    }
+
+    onBulletRemoved(data: any){
+        if(data.playerName !== gameSession.playerName){
+            this.scene.removeEnemyBullet(data.playerName, data.bulletId);
         }
     }
 }
