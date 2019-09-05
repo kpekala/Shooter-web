@@ -65,6 +65,15 @@ class GameRepo{
         socket.removeListener('bulletRemoved',onBulletRemoved);
         socket.on('bulletRemoved',onBulletRemoved)
     }
+
+    emitEnemyIsHit(data: Object){
+        socket.emit('enemyIsHit', data);
+    }
+
+    observeEnemyIsHit(onEnemyIsHit: any){
+        socket.removeListener('enemyIsHit',onEnemyIsHit);
+        socket.on('enemyIsHit',onEnemyIsHit)
+    }
 }
 
 export const gameRepo = new GameRepo();

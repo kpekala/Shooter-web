@@ -38,11 +38,6 @@ export default class Enemy extends Human{
         this.hand.angle = enemyModel.handAngle;
         this.hand.updateFlip(this.flipX);
     }
-  
-    preRender(){
-        this.hand.stickToPlayer(this);
-    }
-
 
     fireBullet(bulletModel: any){
         let {x,y} = bulletModel;

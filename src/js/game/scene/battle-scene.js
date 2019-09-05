@@ -4,7 +4,8 @@ import Player from '../model/player';
 import BattleController from '../controller/battle-controller';
 import Enemy from '../model/enemy';
 
-
+const gameWidth = 1400;
+const gameHeight = 800;
 const blockSizeInPx = 30;
 
 export default class BattleScene extends Phaser.Scene{
@@ -15,6 +16,7 @@ export default class BattleScene extends Phaser.Scene{
         this.initKeys();
 
         this.load.image('background','assets/tlo1.png');
+        this.load.image('cyberpunk-street','assets/cyberpunk-street.png');
         this.load.image('hand','assets/hand.png');
         this.load.image('handEnemy','assets/handEnemy.png');
         this.load.image('gun1','assets/gun1.png');
@@ -34,7 +36,7 @@ export default class BattleScene extends Phaser.Scene{
         this.eventCursors = this.input.keyboard.createCursorKeys();
     }
     create(){
-        const backgroundImage = this.add.image(200, 200, 'background');
+        const backgroundImage = this.add.image(gameWidth / 2, gameHeight / 2, 'background');
         backgroundImage.scaleX = 2;
         backgroundImage.scaleY = 2;
 
@@ -120,6 +122,7 @@ export default class BattleScene extends Phaser.Scene{
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.overlap(this.player.bullets, this.platforms, this.onBulletHitBlock ,null, this);
         this.physics.add.overlap(this.player, this.guns, this.onPlayerTouchingGun, null, this);
+        this.physics.add.overlap(this.player.bullets,this.enemies, this.onBulletHitEnemy, null, this);
     }
 
     onPlayerTouchingGun(player, gun){
@@ -163,6 +166,22 @@ export default class BattleScene extends Phaser.Scene{
         this.battleController.emitBulletRemoved(bullet.id);
         this.sound.play('block_hit');
     }
+
+    onBulletHitEnemy(bullet, enemy){
+        bullet.disableBody(true,true);
+        this.battleController.emitBulletRemoved(bullet.id);
+        this.battleController.emitEnemyIsHit(enemy.name);
+    }
+
+    reduceHealthOfEnemy(enemyName){
+        let enemy = this.findEnemyByName(enemyName);
+        enemy.reduceHealth();
+    }
+
+    reduceHealthOfPlayer(){
+        this.player.reduceHealth();
+    }
+
     createPlayer(){
         this.player = new Player(this);
     }

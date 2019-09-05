@@ -84,8 +84,4 @@ export default class Player extends Human{
     checkPlayerFlip(){
         this.flipX = this.getMouserPointer().x < this.x
     }
-
-    preRender(){
-        this.hand.stickToPlayer(this);
-    }
 }

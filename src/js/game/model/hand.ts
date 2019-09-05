@@ -3,6 +3,7 @@ import Player from './player';
 import BaseContainer from './base/base-container';
 import BaseSprite from './base/base-sprite';
 import { Gun } from './gun';
+import Human from './human';
 
 export default class Hand extends BaseContainer{
 
@@ -56,7 +57,7 @@ export default class Hand extends BaseContainer{
         });
     }
 
-    stickToPlayer(player: BaseSprite){
-        this.setPosition(player.x, player.y - 8);
+    stickToHuman(human: Human){
+        this.setPosition(human.x, human.y - 8);
     }
 }

@@ -4,12 +4,15 @@ import BattleScene from '../scene/battle-scene';
 import BaseSprite from './base/base-sprite';
 import { Gun, GunToTake } from './gun';
 import Bullet from './bullet';
+import HealthBar from './health-bar';
 
 export default class Human extends BaseSprite{
 
     hand!: Hand;
     gun!: Gun;
     bullets!: Phaser.GameObjects.Group;
+    hp: number;
+    healthBar: HealthBar;
 
     constructor(scene: BattleScene, spriteKey: string){
         super(scene, 400, 300, spriteKey);
@@ -17,6 +20,8 @@ export default class Human extends BaseSprite{
         this.scene.physics.world.enable(this);
 
         this.initBulletGroup();
+        this.hp = 100;
+        this.healthBar = new HealthBar(scene, this);
     }
 
     initBulletGroup(){
@@ -43,5 +48,15 @@ export default class Human extends BaseSprite{
     removeBullet(bulletId: string){
         let bullet = this.findBulletById(bulletId);
         bullet.disableBody(true, true);
+    }
+
+    preRender(){
+        this.hand.stickToHuman(this);
+        this.healthBar.stickToHuman(this);
+    }
+
+    reduceHealth(){
+        this.hp -= 10;
+        this.healthBar.updateHealth(this.hp);
     }
 }
