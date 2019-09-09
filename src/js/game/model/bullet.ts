@@ -23,7 +23,6 @@ export default class Bullet extends BaseImage{
 
     fire(gun: Gun, angle: integer){
         this.setVisible(true);
-        
         this.scene.physics.velocityFromAngle(angle, bulletSpeed, this.body.velocity);
     }
 }
