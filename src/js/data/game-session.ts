@@ -4,10 +4,12 @@ class GameSession{
     playerName!: string;
     cachedEnemies: Array<string>;
     guns: Array<Object>
+    handleGameEnd!: any;
 
     constructor(){
         this.cachedEnemies = [];
         this.guns = [];
+
     }
 
     isEnemyInCache(enemyModel: PlayerModel){
@@ -16,6 +18,10 @@ class GameSession{
 
     isEnemiesCacheEmpty(){
         return this.cachedEnemies.length === 0
+    }
+
+    makeEnd(winnerName: string){
+        this.handleGameEnd(winnerName);
     }
 }
 

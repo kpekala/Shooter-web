@@ -1,17 +1,21 @@
-/* Error: Undefined variable.
- *   ,
- * 4 |     background-color: $accentColor;
- *   |                       ^^^^^^^^^^^^
- *   '
- *   scss\utils\common.scss 4:23  root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: "Error: Undefined variable.\a   \2577 \a 4 \2502      background-color: $accentColor;\d\a   \2502                        ^^^^^^^^^^^^\a   \2575 \a   scss\\utils\\common.scss 4:23  root stylesheet";
+.baseButton {
+  background-color: #311d3f;
+  color: white;
+  border-radius: 28px;
+  border-style: none;
+  font-size: 16px;
+  padding: 4px;
+  cursor: pointer;
 }
+
+.baseTextInput {
+  background-color: white;
+  color: black;
+  padding: 4px;
+  border-radius: 28px;
+  border-style: none;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/*# sourceMappingURL=common.css.map */

@@ -147,4 +147,8 @@ export default class BattleController{
             this.scene.onEnemyDead(data.playerName);
         }
     }
+
+    makeEnd(){
+        gameSession.makeEnd(this.scene.getWinnerName());
+    }
 }

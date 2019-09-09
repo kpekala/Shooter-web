@@ -4,6 +4,7 @@ import Player from '../model/player';
 import BattleController from '../controller/battle-controller';
 import Enemy from '../model/enemy';
 import { GAME_WIDTH, GAME_HEIGHT } from '../game-utils';
+import gameSession from '../../data/game-session';
 
 const blockSizeInPx = 30;
 
@@ -199,15 +200,38 @@ export default class BattleScene extends Phaser.Scene{
 
         this.battleController.emitPlayerIsDead();
         this.battleController.disablePlayerUpdates();
+
+        if(this.getNumberOfEnemies() === 1){
+            this.moveGameToEnd()
+        }
     }
 
     onEnemyDead(enemyName){
         let enemy = this.findEnemyByName(enemyName);
+        this.enemies.remove(enemy);
         enemy.removeFromGame();
+        if(this.getNumberOfEnemies() === 0){
+            this.moveGameToEnd()
+        }
+    }
+
+    moveGameToEnd(){
+        console.log('end of game!');
+        this.battleController.makeEnd();
+        this.scene.pause();
+    }
+
+    getWinnerName(){
+        if(this.player.isAlive){
+            return this.player.name;
+        }else{
+            let winner = this.enemies.getFirst();
+            return winner.name;
+        }
     }
 
     createPlayer(){
-        this.player = new Player(this);
+        this.player = new Player(this, gameSession.playerName);
     }
 
     onNewPlayerBullet(bullet){
@@ -253,4 +277,6 @@ export default class BattleScene extends Phaser.Scene{
         this.keyE = keyboard.addKey('E');
         this.keySpace = keyboard.addKey('SPACE');
     }
+
+    getNumberOfEnemies = () => this.enemies.getChildren().length
 }

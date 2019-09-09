@@ -7,7 +7,7 @@ var config = {
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        parent: 'gamePageContainer',
+        parent: 'canvasWrapper',
         width: 1400,
         height: 800
     },
@@ -22,8 +22,9 @@ var config = {
 
 var game;
 
-export function startGame(playerData){
-    console.log('Game is starting!');
+export function startGame(playerData, handleGameEnd){
     gameSession.playerName = playerData.playerName;
     game = new Phaser.Game(config);
+
+    gameSession.handleGameEnd = handleGameEnd;
 }

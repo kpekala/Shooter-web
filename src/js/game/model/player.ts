@@ -17,11 +17,12 @@ export default class Player extends Human{
 
     timeFromLastShoot: number;
 
-    constructor(scene: BattleScene){
+    constructor(scene: BattleScene, name: string){
         super(scene, 'player_sprite');
 
         this.timeFromLastShoot = 0;
         this.hand = new Hand(scene,0,0, 'hand');
+        this.name = name;
 
         this.setUpPlayer();
         this.initListeners();

@@ -1,22 +1,48 @@
 import React from 'react';
 import './../../css/game.css';
-import { socketClient, socket as io} from '../data/repo/room-repo';
-import fetcher from './../fetcher';
 import {startGame} from './../game/game';
+import { WinnerDialog } from './dialog-winner';
 
 
 class GamePage extends React.Component {
+
+  constructor(props){
+    super(props);
+
+    this.state = {
+      ended: false,
+      winnerName: ''
+    }
+
+    this.handleGameEnd = this.handleGameEnd.bind(this);
+  }
 
   componentDidMount(){
     let playerData = {
       playerName: this.props.playerName
     }
-    startGame(playerData);
+    startGame(playerData, this.handleGameEnd);
+  }
+
+  handleGameEnd(winnerName){
+    this.setState({ended: true,winnerName: winnerName})
+  }
+
+  getWinnerDialogOrNull(){
+    if(this.state.ended){
+      return <WinnerDialog winnerName={this.state.winnerName}/>
+    }else{
+      return null;
+    }
   }
 
   render(){
+    let winnerDialog = this.getWinnerDialogOrNull()
+
       return (
-          <div id="gamePageContainer">
+          <div className="gamePageContainer">
+            {winnerDialog}
+            <div id="canvasWrapper"></div>
           </div>
       );
   }
