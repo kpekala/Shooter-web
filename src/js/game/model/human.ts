@@ -59,4 +59,17 @@ export default class Human extends BaseSprite{
         this.hp -= 10;
         this.healthBar.updateHealth(this.hp);
     }
+
+    removeFromGame(){
+        this.destroy();
+        this.hand.destroy();
+        this.healthBar.destroy();
+        if(this.gun){
+            this.gun.destroy();
+        }
+    }
+
+    isDead = () => this.hp <= 0;
+
+    isAlive = () => !this.isDead()
 }

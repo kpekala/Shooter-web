@@ -8,7 +8,7 @@ import Bullet from '../model/bullet';
 const updatesFreeze = 35;
 export default class BattleController{
     scene: BattleScene;
-    intervalIdOfPlayerUpdates!: number;
+    handleOfPlayerUpdates!: number;
 
     constructor(scene: BattleScene){
         this.scene = scene;
@@ -19,16 +19,18 @@ export default class BattleController{
         this.onNewEnemyBullet = this.onNewEnemyBullet.bind(this);
         this.onBulletRemoved = this.onBulletRemoved.bind(this);
         this.onEnemyIsHit = this.onEnemyIsHit.bind(this);
+        this.onEnemyIsDead = this.onEnemyIsDead.bind(this);
     }
 
     onGameStart(){
-        this.intervalIdOfPlayerUpdates = setInterval(this.emitPlayerUpdates,updatesFreeze);
+        this.handleOfPlayerUpdates = setInterval(this.emitPlayerUpdates,updatesFreeze);
         gameRepo.observeEnemyUpdate(this.onEnemyUpdate);
         gameRepo.observeRemovingBlocks(this.onRemovedBlock);
-        gameRepo.observeNewEnemyGun(this.onNewEnemyGun)
-        gameRepo.observeNewEnemyBullet(this.onNewEnemyBullet)
-        gameRepo.observeBulletRemoved(this.onBulletRemoved)
-        gameRepo.observeEnemyIsHit(this.onEnemyIsHit)
+        gameRepo.observeNewEnemyGun(this.onNewEnemyGun);
+        gameRepo.observeNewEnemyBullet(this.onNewEnemyBullet);
+        gameRepo.observeBulletRemoved(this.onBulletRemoved);
+        gameRepo.observeEnemyIsHit(this.onEnemyIsHit);
+        gameRepo.observeEnemyIsDead(this.onEnemyIsDead);
         
         this.scene.addGuns(gameSession.guns);
     }
@@ -38,6 +40,11 @@ export default class BattleController{
         let playerName = gameSession.playerName;
         let playerModel = new PlayerModel(p.x,p.y,p.hand.angle, playerName, p.flipX);
         gameRepo.emitPlayerUpdate(playerModel);
+    }
+
+    
+    disablePlayerUpdates(){
+        clearInterval(this.handleOfPlayerUpdates);
     }
 
     onEnemyUpdate(enemyModel: PlayerModel){
@@ -125,6 +132,19 @@ export default class BattleController{
             this.scene.reduceHealthOfEnemy(data.enemyName);
         }else{
             this.scene.reduceHealthOfPlayer();
+        }
+    }
+
+    emitPlayerIsDead(){
+        let data = {
+            playerName: gameSession.playerName,
+        }
+        gameRepo.emitPlayerIsDead(data);
+    }
+
+    onEnemyIsDead(data: any){
+        if(data.playerName !== gameSession.playerName){
+            this.scene.onEnemyDead(data.playerName);
         }
     }
 }

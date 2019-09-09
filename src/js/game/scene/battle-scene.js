@@ -74,7 +74,9 @@ export default class BattleScene extends Phaser.Scene{
 
 
     update(time, delta){
-        this.player.update(time, delta);
+        if(this.player.isAlive()){
+            this.player.update(time, delta);
+        }
         this.enemies.children.getArray().forEach(enemy => {
             enemy.update(time, delta);
         });
@@ -180,6 +182,21 @@ export default class BattleScene extends Phaser.Scene{
 
     reduceHealthOfPlayer(){
         this.player.reduceHealth();
+        if(this.player.isDead()){
+            this.onPlayerDead()
+        }
+    }
+
+    onPlayerDead(){
+        this.player.removeFromGame();
+
+        this.battleController.emitPlayerIsDead();
+        this.battleController.disablePlayerUpdates();
+    }
+
+    onEnemyDead(enemyName){
+        let enemy = this.findEnemyByName(enemyName);
+        enemy.removeFromGame();
     }
 
     createPlayer(){

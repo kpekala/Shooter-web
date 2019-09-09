@@ -74,6 +74,15 @@ class GameRepo{
         socket.removeListener('enemyIsHit',onEnemyIsHit);
         socket.on('enemyIsHit',onEnemyIsHit)
     }
+
+    emitPlayerIsDead(data: Object){
+        socket.emit('playerIsDead', data);
+    }
+
+    observeEnemyIsDead(onEnemyIsDead: any){
+        socket.removeListener('enemyIsDead',onEnemyIsDead);
+        socket.on('enemyIsDead',onEnemyIsDead)
+    }
 }
 
 export const gameRepo = new GameRepo();
