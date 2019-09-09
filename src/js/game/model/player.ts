@@ -6,6 +6,7 @@ import { Gun, GunToTake } from './gun';
 import Bullet from './bullet';
 import Human from './human';
 import uniqid from 'uniqid';
+import { GAME_HEIGHT } from '../game-utils';
 
 //Plunker
 const movementSpeed = 200;
@@ -45,6 +46,7 @@ export default class Player extends Human{
         this.checkPlayerFlip();
         this.updateMovement();
         this.fireIfNecessary();
+        this.checkIfPlayerWentOutOfBattle()
     }
 
     updateMovement(){
@@ -83,5 +85,12 @@ export default class Player extends Human{
 
     checkPlayerFlip(){
         this.flipX = this.getMouserPointer().x < this.x
+    }
+
+    checkIfPlayerWentOutOfBattle(){
+        if(this.y >= GAME_HEIGHT + 100){
+            this.hp = 0;
+            this.battleScene.onPlayerDead();
+        }
     }
 }

@@ -3,9 +3,8 @@ import {GunToTake} from '../model/gun';
 import Player from '../model/player';
 import BattleController from '../controller/battle-controller';
 import Enemy from '../model/enemy';
+import { GAME_WIDTH, GAME_HEIGHT } from '../game-utils';
 
-const gameWidth = 1400;
-const gameHeight = 800;
 const blockSizeInPx = 30;
 
 export default class BattleScene extends Phaser.Scene{
@@ -36,7 +35,7 @@ export default class BattleScene extends Phaser.Scene{
         this.eventCursors = this.input.keyboard.createCursorKeys();
     }
     create(){
-        const backgroundImage = this.add.image(gameWidth / 2, gameHeight / 2, 'background');
+        const backgroundImage = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'background');
         backgroundImage.scaleX = 2;
         backgroundImage.scaleY = 2;
 
