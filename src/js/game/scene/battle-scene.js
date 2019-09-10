@@ -222,10 +222,10 @@ export default class BattleScene extends Phaser.Scene{
     }
 
     getWinnerName(){
-        if(this.player.isAlive){
+        if(this.player.isAlive()){
             return this.player.name;
         }else{
-            let winner = this.enemies.getFirst();
+            let winner = this.enemies.getChildren()[0];
             return winner.name;
         }
     }
