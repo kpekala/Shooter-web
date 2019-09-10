@@ -145,11 +145,9 @@ class Rooms extends React.Component{
               <div className="roomsTitleWrapper">
                 <span>Pokoje:</span>
               </div>
-              <div className="listContainer">
-                  <ul>
-                      {uiRooms}
-                  </ul>
-              </div>
+                <ul>
+                    {uiRooms}
+                </ul>
               <RoomForm onRoomCreated={this.props.onRoomCreated}/>
               {dialog}
             </div>

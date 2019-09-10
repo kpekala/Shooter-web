@@ -5,11 +5,11 @@ class GameSession{
     cachedEnemies: Array<string>;
     guns: Array<Object>
     handleGameEnd!: any;
+    mapId!: integer;
 
     constructor(){
         this.cachedEnemies = [];
         this.guns = [];
-
     }
 
     isEnemyInCache(enemyModel: PlayerModel){

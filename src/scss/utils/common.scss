@@ -21,3 +21,9 @@ $primaryBorderRadius: 8px;
     padding-left: 8px;
     padding-right: 8px;
 }
+
+@mixin bottomLine($size: 2px){
+    border-style: solid;
+    border-width: 0px 0px $size 0px;
+    border-color: rgba(black,0.2);
+}

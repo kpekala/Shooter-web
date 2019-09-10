@@ -16,8 +16,8 @@ class GameRepo{
         socket.emit('playerReady');
     }
     observeForInitialPositions(onInitialPositions: any){
-        socket.removeListener('startPosition',onInitialPositions);
-        socket.on('startPosition',onInitialPositions);
+        socket.removeListener('initialData',onInitialPositions);
+        socket.on('initialData',onInitialPositions);
     }
 
     emitPlayerUpdate(player: PlayerModel){
