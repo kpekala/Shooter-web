@@ -30,7 +30,6 @@
         box-sizing: border-box;
         padding: 8px;
         border-radius: 0 0 $primaryBorderRadius $primaryBorderRadius;
-        background-color: $lightColor;
     
         label{
             display: inline-block;
@@ -65,7 +64,6 @@
         box-sizing: border-box;
         overflow-y: auto;
         overflow-x: hidden;
-        
         @include bottomLine();
         li{
             padding: 4px 16px 4px 16px;

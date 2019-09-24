@@ -46,7 +46,6 @@
   box-sizing: border-box;
   padding: 8px;
   border-radius: 0 0 8px 8px;
-  background-color: #e23e57;
 }
 .roomsContainer .roomForm label {
   display: inline-block;

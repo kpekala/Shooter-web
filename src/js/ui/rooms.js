@@ -128,7 +128,7 @@ class Rooms extends React.Component{
       let dialog;
       let message;
       if(this.state.isNeedForWriteNameDialog === true){
-        message = 'Your name is empty !'
+        message = 'Wybierz imie!';
         dialog = <Dialog message={message}/>;
       }else{
         dialog = null

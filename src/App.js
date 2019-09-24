@@ -38,6 +38,7 @@ class App extends React.Component {
   }
 
   getCurrentPage(){
+    //return <GamePage playerName={this.state.playerName}/>;
     if(this.state.isGameStarted === true){
       return <GamePage playerName={this.state.playerName}/>;
     }
