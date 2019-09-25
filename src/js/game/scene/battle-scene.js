@@ -27,9 +27,8 @@ export default class BattleScene extends Phaser.Scene{
         backgroundImage.scaleX = 2;
         backgroundImage.scaleY = 2;
 
-        generateBlocks(1).then();
 
-        this.createPlatforms();
+        this.createBlocks();
         this.createPlayer();
         this.createEnemies();
         this.createGuns();
@@ -44,6 +43,21 @@ export default class BattleScene extends Phaser.Scene{
                 enemy.preRender();
             });
         });
+    }
+
+    createBlocks(){
+        this.platforms = this.physics.add.staticGroup();
+        this.decorPlatforms = this.physics.add.staticGroup();
+        generateBlocks(1).then(blocks =>{
+            this.addBlocks(blocks);
+        })
+    }
+
+    addBlocks(blockModels){
+        for(let blockModel of blockModels){
+            let platform = blockModel.hasCollider ? this.platforms : this.decorPlatforms;
+            platform.create(blockModel.x, blockModel.y, blockModel.imageName);
+        }
     }
 
     prepareAnimations(){
@@ -76,21 +90,6 @@ export default class BattleScene extends Phaser.Scene{
         this.guns = this.physics.add.staticGroup();
     }
 
-    createPlatforms(){
-        this.platforms = this.physics.add.staticGroup();
-        this.createSpecificPlatform({x: 240, y: 785 }, 30);
-
-        this.createSpecificPlatform({x: 120, y: 550 }, 10);
-        this.createSpecificPlatform({x: 600, y: 550 }, 10);
-        this.createSpecificPlatform({x: 1100, y: 550 }, 10);
-
-        this.createSpecificPlatform({x: 240, y: 350 }, 30);
-
-        this.createSpecificPlatform({x: 120, y: 150 }, 20);
-        this.createSpecificPlatform({x: 960, y: 150 }, 10);
-
-    }
-
     createEnemies(){
         this.enemies = this.physics.add.group();
     }
@@ -98,15 +97,6 @@ export default class BattleScene extends Phaser.Scene{
     addEnemy(enemyModel){
         let newEnemy = new Enemy(this, enemyModel);
         this.enemies.add(newEnemy);
-    }
-
-    createSpecificPlatform(startPoint, lengthInBlocks){
-        //if startX and startY are 0, platform will start in left-top part of screen
-        for(let i=0; i<lengthInBlocks; i++){
-            const blockX = startPoint.x + i*blockSizeInPx;
-            const blockY = startPoint.y;
-            this.platforms.create(blockX, blockY, 'kamien0');
-        }
     }
 
     addColliders(){

@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import BattleScene from './scene/battle-scene'
 import gameSession from '../data/game-session';
+import { GAME_WIDTH, GAME_HEIGHT } from './game-utils';
 
 var config = {
     type: Phaser.AUTO,
@@ -8,8 +9,8 @@ var config = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
         parent: 'canvasWrapper',
-        width: 1400,
-        height: 800
+        width: GAME_WIDTH,
+        height: GAME_HEIGHT
     },
     physics: {
         default: 'arcade',

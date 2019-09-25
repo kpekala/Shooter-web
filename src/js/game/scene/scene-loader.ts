@@ -1,12 +1,5 @@
 import { readSceneJsonFile } from "./scene-files-reader";
-
-let blocksMap = new Map();
-blocksMap.set('#','empty');
-blocksMap.set('t','trunk');
-blocksMap.set('b','brick');
-blocksMap.set('s','stone');
-blocksMap.set('d','dirt');
-
+import { BLOCK_SIZE, blocksMap } from "../game-utils";
 
 export function generateBlocks(mapId: integer){
     let fileName = `${mapId}.json`;
@@ -14,11 +7,29 @@ export function generateBlocks(mapId: integer){
 }
 
 function extractListOfBlocks(blocksLines: Array<string>){
-    //Generates block objects with image key and position
     let blocks = new Array<any>();
-    blocksLines.forEach((blockLine: string) => {
-        for(let blockChar of blockLine){
-            console.log(blocksMap.get(blockChar));
+    for(let y = 0; y < blocksLines.length; y++){
+        for(let x = 0; x < blocksLines[y].length; x++){
+            let blockCode = blocksLines[y].charAt(x);
+            if(blocksMap.has(blockCode) && !isBlockEmpty(blockCode)){
+                let block = extractBlock(blockCode, x, y);
+                blocks.push(block);
+            }
         }
-    });
+    }
+    return blocks;
+}
+
+function isBlockEmpty(blockCode: string){
+    return blocksMap.get(blockCode).imageName == "empty";
+}
+
+function extractBlock(code: string, x: integer, y:integer){
+    let blockModel = blocksMap.get(code);
+    return {
+        imageName: blockModel.imageName,
+        hasCollider: blockModel.hasCollider,
+        x: x * BLOCK_SIZE + BLOCK_SIZE/2,
+        y: y * BLOCK_SIZE + BLOCK_SIZE/2
+    }
 }
