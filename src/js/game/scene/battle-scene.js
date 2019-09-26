@@ -7,6 +7,7 @@ import { GAME_WIDTH, GAME_HEIGHT } from '../game-utils';
 import gameSession from '../../data/game-session';
 import { loadImages, loadSpriteSheets, loadAudio } from './media-loader';
 import { generateBlocks } from './scene-loader';
+import Block from '../model/block';
 
 const blockSizeInPx = 30;
 
@@ -26,7 +27,6 @@ export default class BattleScene extends Phaser.Scene{
         const backgroundImage = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'background');
         backgroundImage.scaleX = 2;
         backgroundImage.scaleY = 2;
-
 
         this.createBlocks();
         this.createPlayer();
@@ -55,8 +55,12 @@ export default class BattleScene extends Phaser.Scene{
 
     addBlocks(blockModels){
         for(let blockModel of blockModels){
-            let platform = blockModel.hasCollider ? this.platforms : this.decorPlatforms;
-            platform.create(blockModel.x, blockModel.y, blockModel.imageName);
+            if(blockModel.hasCollider){
+                let block = new Block(this,blockModel.x, blockModel.y, blockModel.imageName, true);
+                this.platforms.add(block,true);
+            }else{
+                this.decorPlatforms.create(blockModel.x, blockModel.y, blockModel.imageName);
+            }
         }
     }
 
@@ -140,10 +144,14 @@ export default class BattleScene extends Phaser.Scene{
         throw "enemy not found!";
     }
     onBulletHitBlock(bullet, block){
-        block.disableBody(true,true);
-        this.battleController.emitRemovedBlock(block)
         this.battleController.emitBulletRemoved(bullet.id);
-        this.removeBlock(block);
+        bullet.disableBody(true,true)
+        block.reduceHealth();
+        if(!block.isAlive()){
+            block.disableBody(true,true);
+            this.removeBlock(block);
+            this.battleController.emitRemovedBlock(block)
+        }
     }
 
     removeBlockAt(x, y){

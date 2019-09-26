@@ -10,9 +10,11 @@ export default class BaseSprite extends Phaser.Physics.Arcade.Sprite{
     keySpace!: Phaser.Input.Keyboard.Key;
     battleScene = this.scene as BattleScene
 
-    constructor(scene: Phaser.Scene, x: integer, y: integer, key: string){
+    constructor(scene: Phaser.Scene, x: integer, y: integer, key: string, inGroup: boolean = false){
         super(scene,x,y,key);
-        scene.add.existing(this);
+        if(inGroup === false){
+            scene.add.existing(this);
+        }
         this.initKeys();
     }
 
