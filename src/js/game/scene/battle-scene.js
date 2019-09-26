@@ -48,7 +48,7 @@ export default class BattleScene extends Phaser.Scene{
     createBlocks(){
         this.platforms = this.physics.add.staticGroup();
         this.decorPlatforms = this.physics.add.staticGroup();
-        generateBlocks(1).then(blocks =>{
+        generateBlocks(/*(gameSession.mapId % 3) + 1*/3).then(blocks =>{
             this.addBlocks(blocks);
         })
     }
