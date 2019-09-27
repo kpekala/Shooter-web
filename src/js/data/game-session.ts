@@ -6,6 +6,7 @@ class GameSession{
     guns: Array<Object>
     handleGameEnd!: any;
     mapId!: integer;
+    initialPlayerPos: any;
 
     constructor(){
         this.cachedEnemies = [];
@@ -23,6 +24,16 @@ class GameSession{
     makeEnd(winnerName: string){
         this.handleGameEnd(winnerName);
     }
+
+    findPlayerPos(players: Array<any>, playerName: string){
+        console.log(players, playerName);
+        for(let player of players){
+            if (player.name === playerName){
+                this.initialPlayerPos = {x: player.x, y: player.y};
+            }
+        }
+    }
+    
 }
 
 export default new GameSession();

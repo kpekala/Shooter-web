@@ -48,7 +48,8 @@ export default class BattleScene extends Phaser.Scene{
     createBlocks(){
         this.platforms = this.physics.add.staticGroup();
         this.decorPlatforms = this.physics.add.staticGroup();
-        generateBlocks(/*(gameSession.mapId % 3) + 1*/3).then(blocks =>{
+        let actualMapId = (gameSession.mapId % 3) + 1
+        generateBlocks(actualMapId).then(blocks =>{
             this.addBlocks(blocks);
         })
     }
@@ -219,6 +220,8 @@ export default class BattleScene extends Phaser.Scene{
 
     createPlayer(){
         this.player = new Player(this, gameSession.playerName);
+        let playerPos = gameSession.initialPlayerPos;
+        this.player.setPosition(playerPos.x, playerPos.y);
     }
 
     onNewPlayerBullet(bullet){

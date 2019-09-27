@@ -19,12 +19,10 @@ class App extends React.Component {
   }
 
   onGameStarted(players){
-    console.log('sending readiness for battle!')
     gameRepo.emitPlayerReady();
     gameRepo.observeForInitialPositions((data) =>{
-      console.log('gotten positions: ',data.players);
-      console.log('gotten map: ',data.map);
       gameSession.mapId = data.map;
+      gameSession.findPlayerPos(data.players, this.state.playerName);
       this.setState({isGameStarted: true})
     })
     gameRepo.observeNewGuns((guns) =>{
